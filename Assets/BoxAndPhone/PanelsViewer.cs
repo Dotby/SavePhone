@@ -34,9 +34,7 @@ public class PanelsViewer : MonoBehaviour {
 	void Update () {
 	
 	}
-
-
-
+	
 	public void HideAll(){
 		ShowTip();
 		animPhone.speed = 0f;
@@ -50,6 +48,14 @@ public class PanelsViewer : MonoBehaviour {
 
 	public void StopAnimation(){
 		animPhone.speed = 0;
+	}
+
+	public void PhoneUpped(){
+		Debug.Log("upped");
+		animPhone.Play("idleUp");
+		animPhone.enabled = false;
+		foreach(GameObject gm in panels){gm.SetActive(false);}
+		Invoke("Next", 1f);
 	}
 
 	public void ShowAll(){

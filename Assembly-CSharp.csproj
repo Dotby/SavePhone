@@ -51,6 +51,7 @@
      <Compile Include="Assets\BoxAndPhone\Controller.cs" />
      <Compile Include="Assets\BoxAndPhone\LineDrawer.cs" />
      <Compile Include="Assets\BoxAndPhone\Math3d.cs" />
+     <Compile Include="Assets\BoxAndPhone\MobileAnimControl.cs" />
      <Compile Include="Assets\BoxAndPhone\PanelsViewer.cs" />
      <Compile Include="Assets\BoxAndPhone\SmoothCamera.cs" />
      <Compile Include="Assets\CanvasScreens\UIControll.cs" />

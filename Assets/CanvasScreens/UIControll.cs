@@ -28,13 +28,17 @@ public class UIControll : MonoBehaviour {
 			_pan.SetActive(false);
 		}
 	
-//DEBUG
-	//	_CONTROLLER.SetModeTo(0);
 
-#if !UNITY_EDITOR
-		Invoke("StartOnDevice", 5.0f);
-#else
+#if UNITY_EDITOR
+		_CONTROLLER.SetModeTo(0);
+		Debug.Log("Run in Editor");
+		//SetActiveScreen("WelcomeScreen");
+#elif UNITY_ANDROID
+		Debug.Log("Run on Android");
 		SetActiveScreen("WelcomeScreen");
+#elif UNITY_IOS
+		Debug.Log("Run on Iphone");
+		Invoke("StartOnDevice", 5.0f);
 #endif
 
 	}

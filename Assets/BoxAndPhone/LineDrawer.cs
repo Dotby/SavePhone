@@ -39,9 +39,9 @@ public class LineDrawer : MonoBehaviour {
 	}
 
 	public void Create() {
-		counter = 0f;
-		dist = Vector3.Distance(startPosition, endPosition);
-		state = 1;
+//		counter = 0f;
+//		dist = Vector3.Distance(startPosition, endPosition);
+//		state = 1;
 	}
 
 	void Delete() {
@@ -57,7 +57,7 @@ public class LineDrawer : MonoBehaviour {
 		//creating
 		if (state == 1){
 			if (counter > 0){
-				Debug.Log("draw");
+				//Debug.Log("draw");
 				counter -= 0.1f / lineSpeed;
 				float x = Mathf.Lerp(0, dist, counter);
 				Vector3 pointA = startPosition;
