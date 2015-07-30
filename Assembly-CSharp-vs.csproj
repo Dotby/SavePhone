@@ -47,12 +47,14 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\BoxAndPhone\BillboardPanel.cs" />
+     <Compile Include="Assets\BoxAndPhone\BoxUpControl.cs" />
      <Compile Include="Assets\BoxAndPhone\Controller.cs" />
      <Compile Include="Assets\BoxAndPhone\LineDrawer.cs" />
      <Compile Include="Assets\BoxAndPhone\Math3d.cs" />
      <Compile Include="Assets\BoxAndPhone\PanelsViewer.cs" />
      <Compile Include="Assets\BoxAndPhone\SmoothCamera.cs" />
      <Compile Include="Assets\CanvasScreens\UIControll.cs" />
+     <Compile Include="Assets\CanvasScreens\UIElement.cs" />
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\BackgroundPlaneBehaviour.cs" />
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\CloudRecoBehaviour.cs" />
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\CylinderTargetBehaviour.cs" />
@@ -89,7 +91,6 @@
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\WireframeBehaviour.cs" />
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\WireframeTrackableEventHandler.cs" />
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\WordBehaviour.cs" />
-     <Compile Include="Assets\UIElement.cs" />
      <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\BoxAndPhone\link.xml" />
      <None Include="Assets\Qualcomm Augmented Reality\Shaders\VertexLitWithZ.shader" />

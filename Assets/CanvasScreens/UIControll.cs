@@ -27,9 +27,21 @@ public class UIControll : MonoBehaviour {
 		foreach(GameObject _pan in _UIScreens){
 			_pan.SetActive(false);
 		}
+	
+//DEBUG
+	//	_CONTROLLER.SetModeTo(0);
 
+#if !UNITY_EDITOR
+		Invoke("StartOnDevice", 5.0f);
+#else
 		SetActiveScreen("WelcomeScreen");
-		//_CONTROLLER.SetModeTo(0);
+#endif
+
+	}
+
+	void StartOnDevice()
+	{
+		SetActiveScreen("WelcomeScreen");
 	}
 
 	public GameObject SetActiveScreen(string _name){

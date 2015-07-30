@@ -39,6 +39,8 @@ public class PanelsViewer : MonoBehaviour {
 
 	public void HideAll(){
 		ShowTip();
+		animPhone.speed = 0f;
+		boxUp.speed = 0f;
 		if (prevPan != null) {prevPan.SetActive(false);}
 		ingPan.SetActive(false);
 		lastMode = mode;
@@ -52,11 +54,14 @@ public class PanelsViewer : MonoBehaviour {
 
 	public void ShowAll(){
 
+		animPhone.speed = 1f;
+		boxUp.speed = 1f;
+
 		visible = true;
 
 		if (first == true && mode == 2){
 			first = false;
-
+			Invoke("Next",5f);
 			animPhone.speed = 1;
 			//animPhone.Play("upphone");
 			boxUp.Play("upme");
@@ -111,26 +116,30 @@ public class PanelsViewer : MonoBehaviour {
 		if (mode == 2){return;}
 
 		first = true;
+		panNum = 0;
 
 		if (first == true){
 			first = false;
+			boxUp.enabled = true;
 			animPhone.speed = 1;
 			boxUp.Play("upme");
+
 		}
 
 		if (visible == true){
 			mode = 2;
+			Invoke("Next", 3f);
 			foreach(GameObject gm in panels){gm.SetActive(false);}
 			ingPan.SetActive(false);
 		}else{
 			lastMode = 2;
 			ingPan.SetActive(false);
+
 		}
 
-		int panNum = 0;
-		panels[panNum].SetActive(true);
+		//panels[panNum].SetActive(true);
 		//activePan = panels[panNum];
-		Invoke("Next", 3f);
+
 	}
 
 	void Next()
