@@ -8,6 +8,7 @@ public class UIControll : MonoBehaviour {
 	public AudioClip[] _sfxSnd;
 	public GameObject _CANVAS;
 	public Controller _CONTROLLER;
+	public PanelsViewer pviewer;
 	
 	void Start () {
 		_CONTROLLER = GetComponent<Controller>();
@@ -23,6 +24,8 @@ public class UIControll : MonoBehaviour {
 			_ui.gameObject.SetActive(true);
 			_ui._Manager = this;
 		}
+
+		// pviewer.InitLines();
 
 		foreach(GameObject _pan in _UIScreens){
 			_pan.SetActive(false);

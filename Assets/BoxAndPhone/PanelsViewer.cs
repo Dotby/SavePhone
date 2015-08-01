@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PanelsViewer : MonoBehaviour {
 
@@ -21,18 +22,62 @@ public class PanelsViewer : MonoBehaviour {
 	public Animator boxUp;
 	public Controller _CONTROLLER;
 
-	public bool visible = false;
+	public EngineerControlAnim man;
 
+	public bool visible = false;
+	public Color onColor;
+	Color offColor;
+
+	public GameObject pointsPanel;
+	Image[] stepPoints;
+	public bool upped = false;
 	// Use this for initialization
 	void Start () {
 		StopAnimation();
 		foreach(GameObject gm in panels){gm.SetActive(false);}
 		ingPan.SetActive(false);
+
+		InitStepIcons();
 	}
+
+//	public void InitLines(){
+//		Debug.Log("initLines");
+//
+//		LineDrawer[] lines = GameObject.FindObjectsOfType<LineDrawer>();
+//		
+//		foreach(LineDrawer line in lines){
+//			Debug.Log("line" + line + " man = " + this);
+//
+//			line.manager = this;
+//		}
+//	}
 	
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void InitStepIcons(){
+
+		stepPoints = new Image[panels.Length];
+
+		GameObject tmp = pointsPanel.transform.GetChild(0).gameObject;
+		offColor = tmp.GetComponent<Image>().color;
+		stepPoints[0] = tmp.GetComponent<Image>();
+
+		for (int i = 1; i < panels.Length; i++){
+			GameObject tmpNew = (GameObject)Instantiate(tmp as Object);
+			tmpNew.transform.SetParent(pointsPanel.transform);
+			tmpNew.transform.localScale = tmpNew.transform.lossyScale;
+			stepPoints[i] = tmpNew.GetComponent<Image>();
+		}
+	}
+
+	public void SetActivePoint(){
+		foreach(Image img in stepPoints){
+			img.color = offColor;
+		}
+		stepPoints[panNum].color = onColor;
 	}
 	
 	public void HideAll(){
@@ -44,18 +89,47 @@ public class PanelsViewer : MonoBehaviour {
 		lastMode = mode;
 		mode = 0;
 		visible = false;
+		//CancelInvoke();
+	}
+
+
+	public void ShowMan(){
+		man.Show();
 	}
 
 	public void StopAnimation(){
 		animPhone.speed = 0;
 	}
 
-	public void PhoneUpped(){
-		Debug.Log("upped");
-		animPhone.Play("idleUp");
+	public void End(){
 		animPhone.enabled = false;
-		foreach(GameObject gm in panels){gm.SetActive(false);}
-		Invoke("Next", 1f);
+	}
+
+	public void PhoneUpped(){
+		if (upped == false){
+			upped = true;
+		Debug.Log("upped");
+			Debug.Log(animPhone.gameObject.transform.localRotation.eulerAngles);
+			//animPhone.gameObject.transform.localRotation.eulerAngles = new Vector3(67.0f, 180.0f, 270.0f);
+			animPhone.enabled = false;
+			//animPhone.gameObject.transform.localRotation.eulerAngles = new Vector3(67.0f, 180.0f, 270.0f);
+		//animPhone.Play("idleUp");
+		//animPhone.speed = 1f;//////////////////
+			////ТУТ БЫЛА ТРАБЛА РАНЬШЕ//////////////////////////////////////////////////////
+		
+		
+		
+		//animPhone.gameObject.transform.eulerAngles = Quaternion.Euler(67.0f, 180.0f, 270.0f).eulerAngles;
+		//	Debug.Log("rotate" + animPhone.gameObject.transform.localRotation);
+		//animPhone.gameObject.transform.localRotation = new
+		foreach(GameObject gm in panels){gm.SetActive(true);}
+			foreach(GameObject gm in panels){gm.SetActive(false);}
+		//Invoke("Next", 1f);
+		}
+
+		///animPhone.gameObject.transform.localRotation.eulerAngles.Set(67.0f, 180.0f, 270.0f);
+		Debug.Log(animPhone.gameObject.transform.localRotation.eulerAngles);
+		//animPhone.enabled = false;
 	}
 
 	public void ShowAll(){
@@ -67,7 +141,7 @@ public class PanelsViewer : MonoBehaviour {
 
 		if (first == true && mode == 2){
 			first = false;
-			Invoke("Next",5f);
+			//Invoke("Next",5f);
 			animPhone.speed = 1;
 			//animPhone.Play("upphone");
 			boxUp.Play("upme");
@@ -91,7 +165,7 @@ public class PanelsViewer : MonoBehaviour {
 
 		if (mode == 2){
 			//prevPan.SetActive(true);
-			Invoke("Next", 3f);
+			//Invoke("Next", 3f);
 		}
 	}
 
@@ -134,7 +208,7 @@ public class PanelsViewer : MonoBehaviour {
 
 		if (visible == true){
 			mode = 2;
-			Invoke("Next", 3f);
+			//Invoke("Next", 3f);
 			foreach(GameObject gm in panels){gm.SetActive(false);}
 			ingPan.SetActive(false);
 		}else{
@@ -148,28 +222,75 @@ public class PanelsViewer : MonoBehaviour {
 
 	}
 
-	void Next()
+	public void Prev()
+	{
+		if (mode == 1 || mode == 0) {return;}
+		
+		ingPan.SetActive(false);
+		
+		if (prevPan != null){
+			prevPan.SetActive(false);
+		}
+		
+		//_CONTROLLER.SetModeTo(1);
+		
+		if (panNum - 1 > 0){
+			panNum--;
+		}else{
+			panNum = panels.Length - 1;
+		}
+		
+		//activePan = panels[panNum];
+		panels[panNum].SetActive(true);
+		prevPan = panels[panNum];
+		prevPan.GetComponent<BillboardPanel>().pointPos.GetComponent<LineDrawer>().Create();
+		//Invoke("Next", 3f);
+		SetActivePoint();
+	}
+
+	public void Switch(){
+		//if (prevPan != null){
+			//prevPan.SetActive(false);
+		//}
+
+		if (panNum + 1 < panels.Length){
+			panNum++;
+		}else{
+			panNum = 0;
+		}
+		
+		//activePan = panels[panNum];
+		panels[panNum].SetActive(true);
+		prevPan = panels[panNum];
+		prevPan.GetComponent<BillboardPanel>().ShowSelf();
+
+	}
+
+	
+	public void EndHideLine(){
+		panels[panNum].GetComponent<BillboardPanel>().HideSelf();
+		Switch();
+	}
+
+	public void Next()
 	{
 		if (mode == 1 || mode == 0) {return;}
 
 		ingPan.SetActive(false);
 
-		if (prevPan != null){
-			prevPan.SetActive(false);
-			}
+
 
 		//_CONTROLLER.SetModeTo(1);
+		
 
-		if (panNum +1 < panels.Length){
-			panNum++;
-		}else{
-			panNum = 0;
+
+		if (prevPan != null){
+			prevPan.GetComponent<BillboardPanel>().pointPos.GetComponent<LineDrawer>().Delete();
 		}
-
-		//activePan = panels[panNum];
-		panels[panNum].SetActive(true);
-		prevPan = panels[panNum];
-		prevPan.GetComponent<BillboardPanel>().pointPos.GetComponent<LineDrawer>().Create();
-		Invoke("Next", 3f);
+		else{
+			Switch();
+		}
+		//Invoke("Next", 3f);
+		SetActivePoint();
 	}
 }

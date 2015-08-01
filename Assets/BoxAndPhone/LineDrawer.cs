@@ -9,46 +9,54 @@ public class LineDrawer : MonoBehaviour {
 	Vector3 startPosition;    //The starting position in world space
 	Vector3 endPosition;    //The ending position in world space
 	Vector3 bending = Vector3.up;    //Bend factor (on all axes)
-	float lineSpeed = 3.0f;  
+	public float lineSpeed = 0.01f;  
 	float timeStamp;
-	public float counter = 0f;
+	public float counter = 1f;
 	float dist;
+
+	public PanelsViewer manager;
 
 	public float myLineWidth = .2f;
 
 	///0 - idle, 1 - creating, 2 - deleting;
-	int state = 0;
+	public int state = 0;
 
-	public void DeletLine(){
-		
-	}
 
 	// Use this for initialization
 	void Start () {
-
+		Debug.LogWarning("Start");
 		if (target){
 			line = GetComponent<LineRenderer>();
 			line.SetWidth(myLineWidth, myLineWidth);
-			//line.useWorldSpace = true;
+			line.useWorldSpace = true;
 			line.SetPosition(0, transform.position);
-			line.SetPosition(1, target.transform.position);
+			//line.SetPosition(1, target.transform.position);
 		}
 
 		startPosition = transform.position;
 		endPosition = target.transform.position;
+		//Debug.Log("targetPos: " +  endPosition);
+		dist = Vector3.Distance(startPosition, endPosition);
 	}
 
 	public void Create() {
-//		counter = 0f;
-//		dist = Vector3.Distance(startPosition, endPosition);
-//		state = 1;
+		Debug.Log("CREATE");
+
+		startPosition = transform.position;
+		endPosition = target.transform.position;
+		//Debug.Log("targetPos: " +  endPosition);
+		dist = Vector3.Distance(startPosition, endPosition);
+
+		line.SetPosition(0, transform.position);
+
+		counter = 1f;
+		//dist = Vector3.Distance(startPosition, endPosition);
+		state = 1;
 	}
 
-	void Delete() {
-
-		dist = Vector3.Distance(startPosition, endPosition);
-		counter = dist;
-		state = 1;
+	public void Delete() {
+		counter = 1f;
+		state = 2;
 	}
 	
 	// Update is called once per frame
@@ -57,9 +65,12 @@ public class LineDrawer : MonoBehaviour {
 		//creating
 		if (state == 1){
 			if (counter > 0){
-				//Debug.Log("draw");
-				counter -= 0.1f / lineSpeed;
-				float x = Mathf.Lerp(0, dist, counter);
+
+				counter -= lineSpeed;
+
+				Debug.Log(dist + " - "  + Mathf.Lerp(0, dist, counter) + " = " + (dist - Mathf.Lerp(0, dist, counter)));
+				float x = dist - Mathf.Lerp(0, dist, counter);
+
 				Vector3 pointA = startPosition;
 				Vector3 pointB = endPosition;
 
@@ -68,13 +79,30 @@ public class LineDrawer : MonoBehaviour {
 			}
 			else{
 				state = 0;
-				Delete();
+				counter = 1f;
+
+				//Delete();
 			}
 		}
 
 		//deleting
 		if (state == 2){
-			
+			if (counter > 0){
+				
+				counter -= lineSpeed;
+				float x = Mathf.Lerp(0, dist, counter);
+				
+				Vector3 pointA = startPosition;
+				Vector3 pointB = endPosition;
+				
+				Vector3 pointAtLine = x * Vector3.Normalize(pointB - pointA) + pointA;
+				line.SetPosition(1, pointAtLine);
+			}
+			else{
+				counter = 1f;
+				state = 0;
+				manager.EndHideLine();
+			}
 		}
 
 //		if (target){

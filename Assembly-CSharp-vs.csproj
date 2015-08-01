@@ -49,6 +49,7 @@
      <Compile Include="Assets\BoxAndPhone\BillboardPanel.cs" />
      <Compile Include="Assets\BoxAndPhone\BoxUpControl.cs" />
      <Compile Include="Assets\BoxAndPhone\Controller.cs" />
+     <Compile Include="Assets\BoxAndPhone\EngineerControlAnim.cs" />
      <Compile Include="Assets\BoxAndPhone\LineDrawer.cs" />
      <Compile Include="Assets\BoxAndPhone\Math3d.cs" />
      <Compile Include="Assets\BoxAndPhone\MobileAnimControl.cs" />
@@ -56,6 +57,9 @@
      <Compile Include="Assets\BoxAndPhone\SmoothCamera.cs" />
      <Compile Include="Assets\CanvasScreens\UIControll.cs" />
      <Compile Include="Assets\CanvasScreens\UIElement.cs" />
+     <Compile Include="Assets\Engineer\BodyControl.cs" />
+     <Compile Include="Assets\ParticleScaler\ParticleScaler.cs" />
+     <Compile Include="Assets\PhoneBeh.cs" />
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\BackgroundPlaneBehaviour.cs" />
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\CloudRecoBehaviour.cs" />
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\CylinderTargetBehaviour.cs" />
@@ -98,6 +102,7 @@
      <None Include="Assets\Qualcomm Augmented Reality\Shaders\RenderVideoBackground.shader" />
      <None Include="Assets\BoxAndPhone\license_3rdpartynotice.txt" />
      <None Include="Assets\Qualcomm Augmented Reality\Shaders\VideoBackground.shader" />
+     <None Include="Assets\ParticleScaler\How_to_use.txt" />
      <None Include="Assets\Editor\QCAR\WebcamProfiles\profiles.xml" />
      <None Include="Assets\Qualcomm Augmented Reality\Shaders\DepthMask.shader" />
      <None Include="Assets\StreamingAssets\QCAR\ARGaz.xml" />
