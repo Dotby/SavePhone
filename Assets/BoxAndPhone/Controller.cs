@@ -10,12 +10,10 @@ public class Controller : MonoBehaviour {
 	UIControll _UI;
 	public QCARBehaviour ARCam;
 
-	// Use this for initialization
 	void Start () {
 		_UI = GetComponent<UIControll>();
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
 	
 	}
@@ -62,7 +60,5 @@ public class Controller : MonoBehaviour {
 				ARCam.enabled = true;
 			}
 		}
-
-		//pviewer.mode = _mode;
 	}
 }

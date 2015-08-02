@@ -19,6 +19,10 @@ public class EngineerControlAnim : MonoBehaviour {
 	
 	}
 
+	public void PlaySnd(string sn){
+		animBody.GetComponent<BodyControl>().PlaySnd(sn);
+	}
+
 	public void PlayWater(){
 		Debug.Log("PlayWater");
 		animBody.Play("water");
@@ -41,19 +45,23 @@ public class EngineerControlAnim : MonoBehaviour {
 	}
 
 	public void DownEnd(){
+		anim.Play("idleOff");
+		//Hide();
+		//anim.Play("idleOff");
 		//anim.enabled = true;
-		anim.speed = 0f;
+		//anim.speed = 0f;
 	}
 
-	public void Show(){
+	public void Show(bool axeWater){
+		axe = axeWater;
 		anim.enabled = true;
 		anim.speed = 1f;
 		anim.Play("show");
 	}
 
 	public void Hide(){
-		anim.enabled = true;
-		anim.speed = 1f;
+		//anim.enabled = false;
+		//anim.speed = 1f;
 		anim.Play("hide");
 	}
 }

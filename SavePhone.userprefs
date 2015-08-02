@@ -1,15 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BoxAndPhone\MobileAnimControl.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BoxAndPhone\PanelsViewer.cs">
     <Files>
-      <File FileName="Assets\CanvasScreens\UIControll.cs" Line="29" Column="3" />
-      <File FileName="Assets\BoxAndPhone\Controller.cs" Line="36" Column="22" />
-      <File FileName="Assets\BoxAndPhone\PanelsViewer.cs" Line="104" Column="27" />
-      <File FileName="Assets\BoxAndPhone\LineDrawer.cs" Line="46" Column="43" />
-      <File FileName="Assets\BoxAndPhone\BillboardPanel.cs" Line="89" Column="50" />
-      <File FileName="Assets\BoxAndPhone\MobileAnimControl.cs" Line="21" Column="23" />
-      <File FileName="Assets\BoxAndPhone\EngineerControlAnim.cs" Line="13" Column="24" />
-      <File FileName="Assets\Engineer\BodyControl.cs" Line="9" Column="17" />
+      <File FileName="Assets\BoxAndPhone\EngineerControlAnim.cs" Line="59" Column="5" />
+      <File FileName="Assets\BoxAndPhone\PanelsViewer.cs" Line="89" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

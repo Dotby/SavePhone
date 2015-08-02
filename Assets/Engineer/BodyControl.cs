@@ -5,6 +5,8 @@ public class BodyControl : MonoBehaviour {
 
 	EngineerControlAnim man;
 
+	public AudioClip[] snds;
+
 	// Use this for initialization
 	void Start () {
 		gameObject.GetComponent<Animator>().Play("idleoff");
@@ -14,6 +16,15 @@ public class BodyControl : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void PlaySnd(string name){
+		foreach(AudioClip ac in snds){
+			if (ac.name == name){
+				AudioSource.PlayClipAtPoint(ac, Vector3.zero);
+				return;
+			}
+		}
 	}
 
 	public void AnimEnd(){

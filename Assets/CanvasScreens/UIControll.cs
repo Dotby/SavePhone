@@ -13,12 +13,12 @@ public class UIControll : MonoBehaviour {
 	void Start () {
 		_CONTROLLER = GetComponent<Controller>();
 
-		foreach(GameObject _pan in _UIScreens){
-			_pan.SetActive(true);
-		}
+//		foreach(GameObject _pan in _UIScreens){
+//			_pan.SetActive(true);
+//		}
 
 		UIElement[] _uis = GameObject.FindObjectsOfType<UIElement>();
-		Debug.Log(_uis.Length);
+		//Debug.Log(_uis.Length);
 
 		foreach(UIElement _ui in _uis){
 			_ui.gameObject.SetActive(true);

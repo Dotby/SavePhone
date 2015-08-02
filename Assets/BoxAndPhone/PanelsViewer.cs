@@ -3,8 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class PanelsViewer : MonoBehaviour {
-
-	public GameObject[] panels;
+	
 	int panNum = -1;
 
 	public int mode = -1;
@@ -28,44 +27,49 @@ public class PanelsViewer : MonoBehaviour {
 	public Color onColor;
 	Color offColor;
 
+	public InfoTextPanel infoText;
+
+	public GameObject[] partsToShow;
+
+	public AudioClip clickSnd;
+
+	string[] texts = new string[]{
+		"Устойчивый 4,5 дюймовый экран Corning Gorilla Glass 2 сопротивляется царапинам и повреждениям при падении.",
+		"Резиновый корпус смягчает механические удары, защищает телефон от воды и пыли.",
+		"Две встроенные фото- и видеокамеры по 13 Мп. позволяют делать высококачественную фото- и видеосъемку при сильном или слабом свете.",
+		"Емкая батарея Li-Ion 4200 мАч. — время работы в режиме разговора 1520 минут, в режиме ожидания 380 часов.",
+		" Фонарик и лазерная указка для упрощения взаимодействия."
+	};
+
 	public GameObject pointsPanel;
 	Image[] stepPoints;
 	public bool upped = false;
-	// Use this for initialization
+
+
 	void Start () {
 		StopAnimation();
-		foreach(GameObject gm in panels){gm.SetActive(false);}
 		ingPan.SetActive(false);
 
 		InitStepIcons();
+
+		//infoText.GetComponent<Image>().enabled = false;
+		//infoText.HideSelf();
+
 	}
 
-//	public void InitLines(){
-//		Debug.Log("initLines");
-//
-//		LineDrawer[] lines = GameObject.FindObjectsOfType<LineDrawer>();
-//		
-//		foreach(LineDrawer line in lines){
-//			Debug.Log("line" + line + " man = " + this);
-//
-//			line.manager = this;
-//		}
-//	}
-	
-	// Update is called once per frame
 	void Update () {
 	
 	}
 
 	public void InitStepIcons(){
 
-		stepPoints = new Image[panels.Length];
+		stepPoints = new Image[texts.Length];
 
 		GameObject tmp = pointsPanel.transform.GetChild(0).gameObject;
 		offColor = tmp.GetComponent<Image>().color;
 		stepPoints[0] = tmp.GetComponent<Image>();
 
-		for (int i = 1; i < panels.Length; i++){
+		for (int i = 1; i < texts.Length; i++){
 			GameObject tmpNew = (GameObject)Instantiate(tmp as Object);
 			tmpNew.transform.SetParent(pointsPanel.transform);
 			tmpNew.transform.localScale = tmpNew.transform.lossyScale;
@@ -78,6 +82,23 @@ public class PanelsViewer : MonoBehaviour {
 			img.color = offColor;
 		}
 		stepPoints[panNum].color = onColor;
+
+		if (panNum == 0){
+			animPhone.Play("waterSafe");
+			man.Show(true);
+		}
+
+		if (panNum == 2){
+			animPhone.Play("waterSafe");
+			man.Show(false);
+		}
+
+		if (panNum == 3){
+			animPhone.Play("showBack");
+		}
+
+		AudioSource.PlayClipAtPoint(clickSnd, Vector3.zero, .5f);
+
 	}
 	
 	public void HideAll(){
@@ -89,12 +110,13 @@ public class PanelsViewer : MonoBehaviour {
 		lastMode = mode;
 		mode = 0;
 		visible = false;
-		//CancelInvoke();
+		infoText.HideSelf();
+		pointsPanel.SetActive(false);
 	}
 
 
 	public void ShowMan(){
-		man.Show();
+		man.Show(true);
 	}
 
 	public void StopAnimation(){
@@ -102,34 +124,17 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	public void End(){
-		animPhone.enabled = false;
+		//animPhone.enabled = false;
 	}
 
 	public void PhoneUpped(){
 		if (upped == false){
 			upped = true;
-		Debug.Log("upped");
+			Debug.Log("upped");
 			Debug.Log(animPhone.gameObject.transform.localRotation.eulerAngles);
-			//animPhone.gameObject.transform.localRotation.eulerAngles = new Vector3(67.0f, 180.0f, 270.0f);
-			animPhone.enabled = false;
-			//animPhone.gameObject.transform.localRotation.eulerAngles = new Vector3(67.0f, 180.0f, 270.0f);
-		//animPhone.Play("idleUp");
-		//animPhone.speed = 1f;//////////////////
-			////ТУТ БЫЛА ТРАБЛА РАНЬШЕ//////////////////////////////////////////////////////
-		
-		
-		
-		//animPhone.gameObject.transform.eulerAngles = Quaternion.Euler(67.0f, 180.0f, 270.0f).eulerAngles;
-		//	Debug.Log("rotate" + animPhone.gameObject.transform.localRotation);
-		//animPhone.gameObject.transform.localRotation = new
-		foreach(GameObject gm in panels){gm.SetActive(true);}
-			foreach(GameObject gm in panels){gm.SetActive(false);}
-		//Invoke("Next", 1f);
-		}
+			//animPhone.enabled = false;
 
-		///animPhone.gameObject.transform.localRotation.eulerAngles.Set(67.0f, 180.0f, 270.0f);
-		Debug.Log(animPhone.gameObject.transform.localRotation.eulerAngles);
-		//animPhone.enabled = false;
+		}
 	}
 
 	public void ShowAll(){
@@ -138,12 +143,11 @@ public class PanelsViewer : MonoBehaviour {
 		boxUp.speed = 1f;
 
 		visible = true;
+		pointsPanel.SetActive(true);
 
 		if (first == true && mode == 2){
 			first = false;
-			//Invoke("Next",5f);
 			animPhone.speed = 1;
-			//animPhone.Play("upphone");
 			boxUp.Play("upme");
 		}
 
@@ -151,21 +155,18 @@ public class PanelsViewer : MonoBehaviour {
 			first = false;
 			
 			animPhone.speed = 1;
-			//animPhone.Play("upphone");
-			//boxUp.Play("upme");
 		}
 
 		HideTip();
 		mode = lastMode;
 
 		if (mode == 1){
-			foreach(GameObject gm in panels){gm.SetActive(false);}
+		
 			ingPan.SetActive(true);
 		}
 
 		if (mode == 2){
-			//prevPan.SetActive(true);
-			//Invoke("Next", 3f);
+			infoText.Reshow();
 		}
 	}
 
@@ -184,7 +185,6 @@ public class PanelsViewer : MonoBehaviour {
 
 		if (visible == true){
 			mode = 1;
-			foreach(GameObject gm in panels){gm.SetActive(false);}
 			boxUp.gameObject.SetActive(false);
 			ingPan.SetActive(true);
 		}else{
@@ -208,17 +208,12 @@ public class PanelsViewer : MonoBehaviour {
 
 		if (visible == true){
 			mode = 2;
-			//Invoke("Next", 3f);
-			foreach(GameObject gm in panels){gm.SetActive(false);}
 			ingPan.SetActive(false);
 		}else{
 			lastMode = 2;
 			ingPan.SetActive(false);
 
 		}
-
-		//panels[panNum].SetActive(true);
-		//activePan = panels[panNum];
 
 	}
 
@@ -228,69 +223,31 @@ public class PanelsViewer : MonoBehaviour {
 		
 		ingPan.SetActive(false);
 		
-		if (prevPan != null){
-			prevPan.SetActive(false);
-		}
-		
-		//_CONTROLLER.SetModeTo(1);
-		
-		if (panNum - 1 > 0){
+		if (panNum >= 1){
 			panNum--;
 		}else{
-			panNum = panels.Length - 1;
+			panNum = texts.Length - 1;
 		}
 		
-		//activePan = panels[panNum];
-		panels[panNum].SetActive(true);
-		prevPan = panels[panNum];
-		prevPan.GetComponent<BillboardPanel>().pointPos.GetComponent<LineDrawer>().Create();
-		//Invoke("Next", 3f);
+		infoText.ShowText(texts[panNum]);
+		
 		SetActivePoint();
 	}
-
-	public void Switch(){
-		//if (prevPan != null){
-			//prevPan.SetActive(false);
-		//}
-
-		if (panNum + 1 < panels.Length){
-			panNum++;
-		}else{
-			panNum = 0;
-		}
-		
-		//activePan = panels[panNum];
-		panels[panNum].SetActive(true);
-		prevPan = panels[panNum];
-		prevPan.GetComponent<BillboardPanel>().ShowSelf();
-
-	}
-
 	
-	public void EndHideLine(){
-		panels[panNum].GetComponent<BillboardPanel>().HideSelf();
-		Switch();
-	}
-
 	public void Next()
 	{
 		if (mode == 1 || mode == 0) {return;}
 
 		ingPan.SetActive(false);
 
-
-
-		//_CONTROLLER.SetModeTo(1);
+		if (panNum + 1 < texts.Length){
+			panNum++;
+		}else{
+			panNum = 0;
+		}
 		
-
-
-		if (prevPan != null){
-			prevPan.GetComponent<BillboardPanel>().pointPos.GetComponent<LineDrawer>().Delete();
-		}
-		else{
-			Switch();
-		}
-		//Invoke("Next", 3f);
+		infoText.ShowText(texts[panNum]);
+	
 		SetActivePoint();
 	}
 }
