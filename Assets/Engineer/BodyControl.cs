@@ -19,6 +19,7 @@ public class BodyControl : MonoBehaviour {
 	}
 
 	public void PlaySnd(string name){
+		Debug.Log("Try play: " + name);
 		foreach(AudioClip ac in snds){
 			if (ac.name == name){
 				AudioSource.PlayClipAtPoint(ac, Vector3.zero);

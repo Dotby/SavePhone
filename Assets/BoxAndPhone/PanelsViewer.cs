@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class PanelsViewer : MonoBehaviour {
 	
-	int panNum = -1;
+	public int panNum = -1;
 
 	public int mode = -1;
 	int lastMode = 0;
@@ -47,14 +47,13 @@ public class PanelsViewer : MonoBehaviour {
 
 
 	void Start () {
-		StopAnimation();
+		//StopAnimation();
 		ingPan.SetActive(false);
 
 		InitStepIcons();
 
 		//infoText.GetComponent<Image>().enabled = false;
-		//infoText.HideSelf();
-
+		infoText.ShowText("Защищенное корпоративное устройство\nпод управлением системы\nSafePhonePLUS");
 	}
 
 	void Update () {
@@ -134,6 +133,8 @@ public class PanelsViewer : MonoBehaviour {
 			Debug.Log(animPhone.gameObject.transform.localRotation.eulerAngles);
 			//animPhone.enabled = false;
 
+			Next();
+
 		}
 	}
 
@@ -196,7 +197,7 @@ public class PanelsViewer : MonoBehaviour {
 		if (mode == 2){return;}
 
 		first = true;
-		panNum = 0;
+		panNum = -1;
 
 		if (first == true){
 			first = false;

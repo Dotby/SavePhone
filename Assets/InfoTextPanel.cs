@@ -9,10 +9,10 @@ public class InfoTextPanel : MonoBehaviour
 	Color surf;
 	string newText = ""; 
 
-	void Start(){
+	void Awake(){
 		transform.GetComponent<Image>().color = new Color(surf.r, surf.g, surf.b, 0f);
 		transform.GetComponentInChildren<Text>().color = new Color(255f, 255f, 255f, 0f);
-		surf = transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().color;
+		surf = transform.GetComponent<Image>().color;
 	}
 
 	public void HideSelf(){
