@@ -6,23 +6,8 @@ using UnityEngine.EventSystems;
 
 public class PanelsViewer : MonoBehaviour {
 
-//	public enum SwipeDirection{
-//		Up,
-//		Down,
-//		Right,
-//		Left
-//	}
-	
-	//Swipe(SwipeDirection.Left);public static event UnityAction<SwipeDirection> Swipe;
-	private bool swiping = false;
-	private bool eventSent = false;
-	private Vector2 lastPosition;
-
 	public bool canClick = false;
 
-	/// <summary>
-	/// T/	/// </summary>
-	
 	public int panNum = -1;
 
 	public Texture[] screens;
@@ -84,7 +69,7 @@ public class PanelsViewer : MonoBehaviour {
 		"Организация защищенной корпоративной мобильной связи.",
 		"Управление всем парком мобильных устройств из одной точки.",
 		"Удаленная настройка и смена корпоративных политик безопасности.",
-		"Возможность централизованной установки приложений из анка доверенного ПО.",
+		"Возможность централизованной установки приложений из банка доверенного ПО.",
 		"Блокирование несанкционированного использования любых интерфейсов и USB.",
 		////
 		"Кастомизированная сертифицированная мобильная операционная система.",
@@ -123,51 +108,19 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	void Update () {
-		if (Input.touchCount == 0) 
-			return;
-		
-		if (Input.GetTouch(0).deltaPosition.sqrMagnitude != 0){
-			if (swiping == false){
-				swiping = true;
-				lastPosition = Input.GetTouch(0).position;
-				return;
+		if (Input.touchCount > 0 &&  Input.GetTouch(0).phase == TouchPhase.Moved) {
+			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+			Debug.Log("touch: "+touchDeltaPosition);
+			if (touchDeltaPosition.x > 50f)
+			{
+				Next();
 			}
-			else{
-				if (!eventSent) {
-					//if (Swipe != null) {
-						Vector2 direction = Input.GetTouch(0).position - lastPosition;
-						
-						if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y)){
-							if (direction.x > 0) {
-								//Swipe(SwipeDirection.Right);
-								Next();
-								Debug.Log("swipe right");
-							}
-							else{
-								//Swipe(SwipeDirection.Left);
-								Prev();
-								Debug.Log("swipe left");
-							}
-						}
-						else{
-							if (direction.y > 0){
-								//Swipe(SwipeDirection.Up);
-							}
-							else{
-								//Swipe(SwipeDirection.Down);
-							}
-						}
-						
-						eventSent = true;
-					//}
-				}
-			}
-		}
-		else{
-			swiping = false;
-		}
 
-		//if (Swipe == SwipeDirection.Up){Debug.Log("uppdddddded");}
+			if (touchDeltaPosition.x  > -50f)
+			{
+				Prev();
+			}
+		}
 	}
 	
 	public void InitStepIcons(){
@@ -178,7 +131,7 @@ public class PanelsViewer : MonoBehaviour {
 			}
 		}
 
-		if (mode == 2){
+		if (lastMode == 2){
 			Debug.Log("init step icons 2");
 			stepPoints = new Image[texts.Length];
 
@@ -194,7 +147,7 @@ public class PanelsViewer : MonoBehaviour {
 			}
 		}
 
-		if (mode == 1){
+		if (lastMode == 1){
 			Debug.Log("init step icons 1");
 			stepPoints = new Image[texts2.Length];
 			
@@ -262,7 +215,7 @@ public class PanelsViewer : MonoBehaviour {
 			ShowScreen(8);
 		}
 
-		if (changed == false) {
+		if (changed == false && mode == 2) {
 			if (scenePart == 1){
 				animPhone.Play("idleDown");
 			}
@@ -294,7 +247,19 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	void AnimPlayObj(){
+
+//		if (destPart != null){
+//			destPart.SetActive(false);
+//		}
+
 		if (panNum < 0) {return;}
+
+		foreach(GameObject obj in animationsParts){
+			if (obj) {
+				obj.SetActive(false);
+			}
+		}
+
 		if (animationsParts[panNum] != null){
 			animationsParts[panNum].SetActive(true);
 
@@ -359,22 +324,21 @@ public class PanelsViewer : MonoBehaviour {
 			first = false;
 			animPhone.speed = 1;
 			boxUp.Play("upme");
+			InitStepIcons();
 		}
 
 		if (first == true && mode == 1){
 			first = false;
 			
 			animPhone.speed = 1;
+			//InitStepIcons();
+			Next();
 		}
 
 		HideTip();
 		mode = lastMode;
 
-		if (mode == 1){
-			//ingPan.SetActive(true);
-		}
-
-		if (mode == 2){
+		if (mode == 2 || mode == 1){
 			infoText.Reshow();
 		}
 	}
@@ -392,6 +356,8 @@ public class PanelsViewer : MonoBehaviour {
 
 		//first = true;
 
+		panNum = -1;
+
 		if (first == true){
 			first = false;
 			boxUp.enabled = true;
@@ -401,26 +367,33 @@ public class PanelsViewer : MonoBehaviour {
 			animPhone.Play("fastUp");
 		}
 
-		if (visible == true){
-			mode = 1;
-			//boxUp.gameObject.SetActive(false);
-			//ingPan.SetActive(true);
-		}else{
-			lastMode = 1;
-		}
+
 
 		if (activePart != null){
 			activePart.SetActive(false);
 		}
 
 		ShowScreen(8);
-		InitStepIcons();
+		//InitStepIcons();
+
+		if (visible == true){
+			mode = 1;
+			lastMode = mode;
+			InitStepIcons();
+			Next();
+			//boxUp.gameObject.SetActive(false);
+			//ingPan.SetActive(true);
+		}else{
+			lastMode = 1;
+			InitStepIcons();
+
+		}
 
 //		foreach (GameObject obj in animationsParts){
 //			obj.SetActive(false);
 //		}
 
-		panNum = -1;
+
 	}
 
 	public void UserMode(){
@@ -438,17 +411,23 @@ public class PanelsViewer : MonoBehaviour {
 			animPhone.Play("fastDown");
 		}
 
+
+		ShowScreen(-1);
+
+		
 		if (visible == true){
 			mode = 2;
+			lastMode = mode;
+			InitStepIcons();
+			Next();
 			//ingPan.SetActive(false);
 		}else{
 			lastMode = 2;
+			InitStepIcons();
+
 			//ingPan.SetActive(false);
-
+			
 		}
-		InitStepIcons();
-
-		panNum = -1;
 
 	}
 
@@ -456,32 +435,28 @@ public class PanelsViewer : MonoBehaviour {
 	{
 		if (mode == 0 || canClick == false) {return;}
 		canClick = false;
-		Invoke("AcceptClic", 2f);
-		eventSent = false;
-		
+
+
 		//ingPan.SetActive(false);
 		
-		if (panNum >= 1){
-			panNum--;
-		}else{
-			panNum = texts.Length - 1;
-		}
-		
 		if (mode == 2){
-			if (panNum - 1 > 0){
+			if (panNum - 1 >= 0){
 				panNum--;
 			}else{
 				panNum = texts.Length - 1;
 			}
 			
 			infoText.ShowText(texts[panNum]);
+
+			Invoke("AcceptClic", 2f);
 		}else{
-			if (panNum - 1 > 0){
-				panNum++;
+			if (panNum - 1 >= 0){
+				panNum--;
 			}else{
 				panNum = texts2.Length - 1;
 			}
 			infoText.ShowText(texts2[panNum]);
+			Invoke("AcceptClic", 1f);
 		}
 		
 		SetActivePoint();
@@ -491,8 +466,7 @@ public class PanelsViewer : MonoBehaviour {
 	{
 		if (mode == 0 || canClick == false) {return;}
 		canClick = false;
-		Invoke("AcceptClic", 2f);
-		eventSent = false;
+		//Invoke("AcceptClic", 2f);
 
 		//ingPan.SetActive(false);
 
@@ -506,6 +480,7 @@ public class PanelsViewer : MonoBehaviour {
 			}
 
 			infoText.ShowText(texts[panNum]);
+			Invoke("AcceptClic", 2f);
 		}else{
 			if (panNum + 1 < texts2.Length){
 				panNum++;
@@ -513,6 +488,7 @@ public class PanelsViewer : MonoBehaviour {
 				panNum = 0;
 			}
 			infoText.ShowText(texts2[panNum]);
+			Invoke("AcceptClic", 1f);
 		}
 	
 		if (activePart != null){
