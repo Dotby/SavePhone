@@ -55,7 +55,7 @@ public class Controller : MonoBehaviour {
 				}
 			}
 
-			if (ARCam.enabled == false)
+			if (ARCam.enabled == false && pviewer.arisON == true)
 			{
 				ARCam.enabled = true;
 			}

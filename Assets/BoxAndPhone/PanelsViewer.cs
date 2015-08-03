@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+//using Vuforia;
 
 public class PanelsViewer : MonoBehaviour {
 
@@ -40,11 +41,15 @@ public class PanelsViewer : MonoBehaviour {
 
 	public AudioClip clickSnd;
 
+	public GameObject holeObj;
+
 	GameObject activePart = null;
 	GameObject destPart = null;
 	public int scenePart = 1;
 
 	public GameObject[] animationsParts;
+
+	public bool arisON = true;
 
 	string[] texts = new string[]{
 		"Обеспечивает коммуникации по каналам операторов мобильной связи.",
@@ -107,6 +112,77 @@ public class PanelsViewer : MonoBehaviour {
 		infoText.ShowText("Защищенное корпоративное устройство\nпод управлением системы\nSafePhonePLUS");
 	}
 
+	public void SwitchARNOAR(){
+		if (arisON == true){
+			arisON = false; 
+			SwitchARToONOFF(arisON);
+			return;
+		}else{
+			arisON = true; 
+			SwitchARToONOFF(arisON);
+			return;
+		}
+		
+	}
+
+	public void SwitchARToONOFF(bool onoff){
+		if (onoff == true){
+			//NoARCamParts[0].SetActive(false);
+			_CONTROLLER.ARCam.enabled = true;
+			holeObj.SetActive(true);
+			//BattleArena.GetComponent<Vuforia.ImageTargetBehaviour>().enabled = true;
+			//GameObject.Find("Camera").GetComponent<Camera>().cullingMask = layerOn;
+			
+			//GameObject.Find("SceneControl").GetComponent<GUIHelper>().rotPan.SetActive(false);
+			//_SCENE._GUI._GUIHelper.rotPan.SetActive(false);
+		}else{
+			
+			
+			/*
+			514 -534 333
+				312 45 307
+					1 1 1
+					*/
+
+//			MeshRenderer[] rendererComponents = animPhone.gameObject.GetComponentsInChildren<MeshRenderer>(true);
+//			
+//			// Enable rendering:
+//			foreach (MeshRenderer component in rendererComponents)
+//			{
+//				component.enabled = true;
+//			}
+
+			_CONTROLLER.ARCam.gameObject.transform.position = new Vector3(-45.4f, 71f, -59f);
+			_CONTROLLER.ARCam.gameObject.transform.rotation = Quaternion.Euler(53.8f, 0f, 0f);
+			//_CONTROLLER.ARCam.gameObject.transform.Translate(0f, 0f, -5f);
+			animPhone.gameObject.SetActive(true);
+
+			visible = true;
+			//NoARCamParts[0].GetComponent<RotateCamAroundArena>().ActivateCam();
+			
+			//GameObject.Find("Camera").transform.localPosition = new Vector3(514f, -534f, 333f);
+			//GameObject.Find("Camera").transform.localRotation = Quaternion.Euler(new Vector3(312f, 45f, 307f));
+			
+			_CONTROLLER.ARCam.enabled = false;
+
+			Renderer[] rendererComponents = gameObject.GetComponentsInChildren<Renderer>(true);
+						
+						// Enable rendering:
+						foreach (Renderer component in rendererComponents)
+						{
+							component.enabled = true;
+						}
+
+			holeObj.SetActive(false);
+			//GameObject.Find("Camera").GetComponent<Camera>().cullingMask = layerOff;
+			
+		//	GameObject.Find("SceneControl").GetComponent<GUIHelper>().rotPan.SetActive(true);
+			//_SCENE._GUI._GUIHelper.rotPan.SetActive(true);
+		}
+		
+		//SetLightToARCamera(onoff);
+	}
+
 	void Update () {
 		if (Input.touchCount > 0 &&  Input.GetTouch(0).phase == TouchPhase.Moved) {
 			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
@@ -116,7 +192,7 @@ public class PanelsViewer : MonoBehaviour {
 				Next();
 			}
 
-			if (touchDeltaPosition.x  > -50f)
+			if (touchDeltaPosition.x  < -50f)
 			{
 				Prev();
 			}
@@ -168,6 +244,7 @@ public class PanelsViewer : MonoBehaviour {
 		foreach(Image img in stepPoints){
 			img.color = offColor;
 		}
+
 		stepPoints[panNum].color = onColor;
 
 		AudioSource.PlayClipAtPoint(clickSnd, Vector3.zero, .5f);
@@ -271,6 +348,9 @@ public class PanelsViewer : MonoBehaviour {
 	}
 	
 	public void HideAll(){
+
+		if (arisON == false) {return;}
+
 		canClick = false;
 		ShowTip();
 		animPhone.speed = 0f;
