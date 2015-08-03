@@ -57,6 +57,8 @@
      <Compile Include="Assets\CanvasScreens\UIElement.cs" />
      <Compile Include="Assets\Engineer\BodyControl.cs" />
      <Compile Include="Assets\InfoTextPanel.cs" />
+     <Compile Include="Assets\MiniGestureRecognizer.cs" />
+     <Compile Include="Assets\OnceAnimation.cs" />
      <Compile Include="Assets\ParticleScaler\ParticleScaler.cs" />
      <Compile Include="Assets\PhoneBeh.cs" />
      <Compile Include="Assets\Qualcomm Augmented Reality\Scripts\BackgroundPlaneBehaviour.cs" />
