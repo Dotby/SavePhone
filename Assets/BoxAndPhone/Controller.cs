@@ -21,9 +21,9 @@ public class Controller : MonoBehaviour {
 
 	public void Found(){
 		if (pviewer.mode == -1) {return;}
-		foundCount++;
+		//foundCount++;
 		pviewer.ShowAll();
-		sc.enabled = true;
+		//sc.enabled = true;
 	}
 
 	public void OpenMenu(){
@@ -32,7 +32,7 @@ public class Controller : MonoBehaviour {
 
 	public void Lost(){
 		pviewer.HideAll();
-		sc.enabled = false;
+		//sc.enabled = false;
 	}
 
 	public void SetModeTo(int _mode){
@@ -43,6 +43,7 @@ public class Controller : MonoBehaviour {
 		else
 		{
 			if (_mode == 0){
+				pviewer.ARmode = 0;
 				_UI.SetActiveScreen("SelectMode");
 			}
 			else{
@@ -60,7 +61,7 @@ public class Controller : MonoBehaviour {
 				}
 			}
 
-			if (ARCam.enabled == false && pviewer.ARmode > 0)
+			if (ARCam.enabled == false && pviewer.ARmode == 1)
 			{
 				ARCam.enabled = true;
 			}

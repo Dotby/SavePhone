@@ -101,16 +101,17 @@ public class PanelsViewer : MonoBehaviour {
 			_CONTROLLER._UI.SetActiveScreen("AboutScreen");
 			mode = 2;
 			lastMode = 2;
+			ARmode = 2;
 
 			pointsPanel.SetActive(true);
 			InitStepIcons();
 			//Next();
 
 			visible = true;
-			animPhone.speed = 1f;
+			//animPhone.speed = 1f;
 			boxUp.gameObject.SetActive(true);
-			boxUp.speed = 1f;
-			boxUp.Play("upme");
+			//boxUp.speed = 1f;
+			//boxUp.Play("upme");
 
 
 		}
@@ -135,6 +136,7 @@ public class PanelsViewer : MonoBehaviour {
 	public void SwitchARToMode(int fmode){
 		if (fmode > 0 && fmode <= 2){
 			ARmode = fmode;
+			lastMode = ARmode;
 		}
 
 		if (fmode == 1){
@@ -152,6 +154,7 @@ public class PanelsViewer : MonoBehaviour {
 		}
 
 		if (fmode == 0){
+			_CONTROLLER.ARCam.enabled = false;
 			_CONTROLLER.ARCam.gameObject.transform.position = new Vector3(120f, 215f, -345f);
 			_CONTROLLER.ARCam.gameObject.transform.rotation = Quaternion.Euler(29f, 333f, 0f);
 
@@ -159,7 +162,7 @@ public class PanelsViewer : MonoBehaviour {
 
 			visible = true;
 
-			_CONTROLLER.ARCam.enabled = false;
+
 
 			Renderer[] rendererComponents = gameObject.GetComponentsInChildren<Renderer>(true);
 						
@@ -219,12 +222,12 @@ public class PanelsViewer : MonoBehaviour {
 			if (Input.touchCount > 0 &&  Input.GetTouch(0).phase == TouchPhase.Moved) {
 				Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
 				Debug.Log("touch: "+touchDeltaPosition);
-				if (touchDeltaPosition.x > 50f)
+				if (touchDeltaPosition.x > 40f)
 				{
 					Next();
 				}
 
-				if (touchDeltaPosition.x  < -50f)
+				if (touchDeltaPosition.x  < -40f)
 				{
 					Prev();
 				}
@@ -441,6 +444,7 @@ public class PanelsViewer : MonoBehaviour {
 		pointsPanel.SetActive(true);
 
 		if (first == true && mode == 2){
+			Debug.Log("start _______________--");
 			first = false;
 			animPhone.speed = 1;
 			boxUp.Play("upme");

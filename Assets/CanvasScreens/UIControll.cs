@@ -39,7 +39,8 @@ public class UIControll : MonoBehaviour {
 			//pviewer.ARmode = 2;
 			SetActiveScreen("AboutScreen");
 		}else{
-			SetActiveScreen("WelcomeScreen");
+			SetActiveScreen("CamModeSelect");
+			//SetActiveScreen("WelcomeScreen");
 		}
 		//SetActiveScreen("AboutScreen");
 #elif UNITY_ANDROID
@@ -78,7 +79,7 @@ public class UIControll : MonoBehaviour {
 		}
 
 		Debug.Log("pmode" + pviewer.ARmode);
-		if (Application.loadedLevelName != "SceneVR"){
+		if (Application.loadedLevelName == "SceneVR"){
 			pviewer.ARmode = 2;
 		}
 		if (pviewer.ARmode < 2){
