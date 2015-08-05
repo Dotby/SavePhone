@@ -226,12 +226,12 @@ public class PanelsViewer : MonoBehaviour {
 				Debug.Log("touch: "+touchDeltaPosition);
 				if (touchDeltaPosition.x > 40f)
 				{
-					Next();
+					Prev();
 				}
 
 				if (touchDeltaPosition.x  < -40f)
 				{
-					Prev();
+					Next();
 				}
 			}
 		}
