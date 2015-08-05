@@ -430,6 +430,12 @@ public class PanelsViewer : MonoBehaviour {
 			//Debug.Log(animPhone.gameObject.transform.localRotation.eulerAngles);
 			//animPhone.enabled = false;
 
+			if (Application.loadedLevelName == "SceneVR"){
+				mode = 2;
+				lastMode = 2;
+				ARmode = 2;
+			}
+
 			canClick = true;
 
 			Next();
