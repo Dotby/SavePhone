@@ -33,9 +33,15 @@ public class UIControll : MonoBehaviour {
 	
 
 #if UNITY_EDITOR
-		_CONTROLLER.SetModeTo(0);
+		//_CONTROLLER.SetModeTo(0);
 		Debug.Log("Run in Editor");
-		//SetActiveScreen("WelcomeScreen");
+		if (Application.loadedLevelName == "SceneVR"){
+			//pviewer.ARmode = 2;
+			SetActiveScreen("AboutScreen");
+		}else{
+			SetActiveScreen("WelcomeScreen");
+		}
+		//SetActiveScreen("AboutScreen");
 #elif UNITY_ANDROID
 		Debug.Log("Run on Android");
 		SetActiveScreen("WelcomeScreen");
@@ -53,7 +59,7 @@ public class UIControll : MonoBehaviour {
 
 	public GameObject SetActiveScreen(string _name){
 
-		if (_CONTROLLER.pviewer.mode == -1) {_CONTROLLER.OpenMenu();}
+		//if (_CONTROLLER.pviewer.mode == -1) {_CONTROLLER.OpenMenu();}
 
 		for (int _i = 0; _i < _UIScreens.Length; _i++){
 			if (_UIScreens[_i].name == _name){
@@ -65,10 +71,16 @@ public class UIControll : MonoBehaviour {
 			}
 		}
 
-		if (_CONTROLLER.sc.enabled == false){
-			_CONTROLLER.pviewer.ShowTip();
-		}else{
-			//_CONTROLLER.pviewer.HideTip();
+		Debug.Log("pmode" + pviewer.ARmode);
+		if (Application.loadedLevelName != "SceneVR"){
+			pviewer.ARmode = 2;
+		}
+		if (pviewer.ARmode < 2){
+			if (pviewer.visible == false){
+				//_CONTROLLER.pviewer.ShowTip();
+			}else{
+				//_CONTROLLER.pviewer.HideTip();
+			}
 		}
 
 		return _activeScreen;

@@ -35,6 +35,8 @@ public class PanelsViewer : MonoBehaviour {
 	public Color onColor;
 	Color offColor;
 
+
+
 	public InfoTextPanel infoText;
 
 	//public GameObject[] partsToShow;
@@ -49,7 +51,7 @@ public class PanelsViewer : MonoBehaviour {
 
 	public GameObject[] animationsParts;
 
-	public bool arisON = true;
+	public int ARmode = 0;
 
 	string[] texts = new string[]{
 		"Обеспечивает коммуникации по каналам операторов мобильной связи.",
@@ -95,12 +97,28 @@ public class PanelsViewer : MonoBehaviour {
 
 	void Start () {
 
+		if (Application.loadedLevelName == "SceneVR"){
+			_CONTROLLER._UI.SetActiveScreen("AboutScreen");
+			mode = 2;
+			lastMode = 2;
+
+			pointsPanel.SetActive(true);
+			InitStepIcons();
+			//Next();
+
+			visible = true;
+			boxUp.Play("upme");
+
+			animPhone.speed = 1f;
+			boxUp.speed = 1f;
+		}
 
 		//StopAnimation();
 		//ingPan.SetActive(false);
 		ShowScreen(-1);
 		screenTexture.sharedMaterial.mainTexture = new Texture();
 		screenTexture.enabled = false;
+
 
 		foreach(GameObject obj in animationsParts){
 			if (obj != null){
@@ -112,57 +130,33 @@ public class PanelsViewer : MonoBehaviour {
 		infoText.ShowText("Защищенное корпоративное устройство\nпод управлением системы\nSafePhonePLUS");
 	}
 
-	public void SwitchARNOAR(){
-		if (arisON == true){
-			arisON = false; 
-			SwitchARToONOFF(arisON);
-			return;
-		}else{
-			arisON = true; 
-			SwitchARToONOFF(arisON);
-			return;
+	public void SwitchARToMode(int fmode){
+		if (fmode > 0 && fmode <= 2){
+			ARmode = fmode;
 		}
-		
-	}
 
-	public void SwitchARToONOFF(bool onoff){
-		if (onoff == true){
-			//NoARCamParts[0].SetActive(false);
+		if (fmode == 1){
+
 			_CONTROLLER.ARCam.enabled = true;
 			holeObj.SetActive(true);
-			//BattleArena.GetComponent<Vuforia.ImageTargetBehaviour>().enabled = true;
-			//GameObject.Find("Camera").GetComponent<Camera>().cullingMask = layerOn;
-			
-			//GameObject.Find("SceneControl").GetComponent<GUIHelper>().rotPan.SetActive(false);
-			//_SCENE._GUI._GUIHelper.rotPan.SetActive(false);
-		}else{
-			
-			
-			/*
-			514 -534 333
-				312 45 307
-					1 1 1
-					*/
 
-//			MeshRenderer[] rendererComponents = animPhone.gameObject.GetComponentsInChildren<MeshRenderer>(true);
-//			
-//			// Enable rendering:
-//			foreach (MeshRenderer component in rendererComponents)
-//			{
-//				component.enabled = true;
-//			}
+			Renderer[] rendererComponents = gameObject.GetComponentsInChildren<Renderer>(true);
 
-			_CONTROLLER.ARCam.gameObject.transform.position = new Vector3(-45.4f, 71f, -59f);
-			_CONTROLLER.ARCam.gameObject.transform.rotation = Quaternion.Euler(53.8f, 0f, 0f);
-			//_CONTROLLER.ARCam.gameObject.transform.Translate(0f, 0f, -5f);
+			foreach (Renderer component in rendererComponents)
+			{
+				component.enabled = false;
+			}
+
+		}
+
+		if (fmode == 0){
+			_CONTROLLER.ARCam.gameObject.transform.position = new Vector3(120f, 215f, -345f);
+			_CONTROLLER.ARCam.gameObject.transform.rotation = Quaternion.Euler(29f, 333f, 0f);
+
 			animPhone.gameObject.SetActive(true);
 
 			visible = true;
-			//NoARCamParts[0].GetComponent<RotateCamAroundArena>().ActivateCam();
-			
-			//GameObject.Find("Camera").transform.localPosition = new Vector3(514f, -534f, 333f);
-			//GameObject.Find("Camera").transform.localRotation = Quaternion.Euler(new Vector3(312f, 45f, 307f));
-			
+
 			_CONTROLLER.ARCam.enabled = false;
 
 			Renderer[] rendererComponents = gameObject.GetComponentsInChildren<Renderer>(true);
@@ -174,29 +168,67 @@ public class PanelsViewer : MonoBehaviour {
 						}
 
 			holeObj.SetActive(false);
-			//GameObject.Find("Camera").GetComponent<Camera>().cullingMask = layerOff;
-			
-		//	GameObject.Find("SceneControl").GetComponent<GUIHelper>().rotPan.SetActive(true);
-			//_SCENE._GUI._GUIHelper.rotPan.SetActive(true);
 		}
-		
+
+		if (fmode == 2){
+			Application.LoadLevel("SceneVR");
+			return;
+//			Debug.Log("TRY SWITCH ON STEREO...");
+//			_CONTROLLER.ARCam.enabled = false;
+//
+//			if (_CONTROLLER.StereoCam){
+//
+//				_CONTROLLER.StereoCam.transform.GetChild(0).gameObject.SetActive(true);
+//				_CONTROLLER.StereoCam.transform.GetChild(1).gameObject.SetActive(true);
+//
+//				_CONTROLLER.StereoCam.enabled = true;
+//			}
+		}
+
+		if (lastMode == 0){
+			_CONTROLLER._UI.SetActiveScreen("SelectMode");
+		}
+
+		if (lastMode == 1 || lastMode == 2){
+			_CONTROLLER._UI.SetActiveScreen("AboutScreen");
+		}
 		//SetLightToARCamera(onoff);
 	}
 
-	void Update () {
-		if (Input.touchCount > 0 &&  Input.GetTouch(0).phase == TouchPhase.Moved) {
-			Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-			Debug.Log("touch: "+touchDeltaPosition);
-			if (touchDeltaPosition.x > 50f)
-			{
-				Next();
-			}
+	public void VButton(int bt){
+		if (bt == 0){
+			Prev();
+			//animPhone.Play("showBack");
+		}
 
-			if (touchDeltaPosition.x  < -50f)
-			{
-				Prev();
+		if (bt == 1){
+
+		}
+
+		if (bt == 2){
+			Next ();
+			//animPhone.Play("fastDown");
+		}
+	}
+
+	void Update () {
+		if (ARmode != 2){
+
+			if (Input.touchCount > 0 &&  Input.GetTouch(0).phase == TouchPhase.Moved) {
+				Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
+				Debug.Log("touch: "+touchDeltaPosition);
+				if (touchDeltaPosition.x > 50f)
+				{
+					Next();
+				}
+
+				if (touchDeltaPosition.x  < -50f)
+				{
+					Prev();
+				}
 			}
 		}
+
 	}
 	
 	public void InitStepIcons(){
@@ -219,6 +251,9 @@ public class PanelsViewer : MonoBehaviour {
 				GameObject tmpNew = (GameObject)Instantiate(tmp as Object);
 				tmpNew.transform.SetParent(pointsPanel.transform);
 				tmpNew.transform.localScale = tmpNew.transform.lossyScale;
+				tmpNew.GetComponent<RectTransform>().localScale = Vector3.one;
+				tmpNew.GetComponent<RectTransform>().localRotation = Quaternion.Euler(Vector3.zero); 
+				tmpNew.GetComponent<RectTransform>().localPosition = Vector3.zero;
 				stepPoints[i] = tmpNew.GetComponent<Image>();
 			}
 		}
@@ -349,7 +384,7 @@ public class PanelsViewer : MonoBehaviour {
 	
 	public void HideAll(){
 
-		if (arisON == false) {return;}
+		if (ARmode == 0) {return;}
 
 		canClick = false;
 		ShowTip();
@@ -381,7 +416,8 @@ public class PanelsViewer : MonoBehaviour {
 		if (upped == false){
 			upped = true;
 			Debug.Log("upped");
-			Debug.Log(animPhone.gameObject.transform.localRotation.eulerAngles);
+			animPhone.Play("fastDown");
+			//Debug.Log(animPhone.gameObject.transform.localRotation.eulerAngles);
 			//animPhone.enabled = false;
 
 			canClick = true;
@@ -391,6 +427,8 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	public void ShowAll(){
+
+		if (ARmode == 0) {return;}
 
 		canClick = true;
 
@@ -428,11 +466,21 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	public void ShowTip(){
-		tip.GetComponent<Animator>().Play("show");
+		if (ARmode > 0){
+			tip.GetComponent<Animator>().Play("show");
+		}
 	}
 
 	public void IngMode(){
 		if (mode == 1){return;}
+
+		if (ARmode == 0){
+			visible = true;
+			boxUp.Play("upme");
+			pointsPanel.SetActive(true);
+			animPhone.speed = 1f;
+			boxUp.speed = 1f;
+		}
 
 		//first = true;
 
@@ -479,6 +527,17 @@ public class PanelsViewer : MonoBehaviour {
 	public void UserMode(){
 		if (mode == 2){return;}
 
+		if (ARmode == 0){
+			visible = true;
+			boxUp.Play("upme");
+			pointsPanel.SetActive(true);
+			animPhone.speed = 1f;
+			boxUp.speed = 1f;
+
+			//upped = true;
+			//canClick = true;
+		}
+
 		first = true;
 		panNum = -1;
 
@@ -488,7 +547,8 @@ public class PanelsViewer : MonoBehaviour {
 			animPhone.speed = 1;
 			boxUp.Play("upme");
 		}else{
-			animPhone.Play("fastDown");
+			//fastDown
+			animPhone.Play("idleDown");
 		}
 
 

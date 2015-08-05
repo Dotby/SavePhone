@@ -20,6 +20,6 @@ public class UIElement : MonoBehaviour {
 	}
 
 	public void GoToState(int _state){
-		_Manager._CONTROLLER.SetModeTo(0);
+		_Manager._CONTROLLER.SetModeTo(3);
 	}
 }

@@ -1,8 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{9BB04647-BF25-7B76-3348-39B73880997F}") = "SavePhone", "Assembly-CSharp-firstpass-vs.csproj", "{DDBB9CAA-3B40-C1DC-4760-1F00DE2F4831}"
-EndProject
 Project("{9BB04647-BF25-7B76-3348-39B73880997F}") = "SavePhone", "Assembly-CSharp-vs.csproj", "{85567FC1-6ECA-46E9-5E54-EF5D13814294}"
 EndProject
 Project("{9BB04647-BF25-7B76-3348-39B73880997F}") = "SavePhone", "Assembly-CSharp-Editor-vs.csproj", "{D4B0603C-8FDF-CC99-9928-8349B4EF334D}"
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DDBB9CAA-3B40-C1DC-4760-1F00DE2F4831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDBB9CAA-3B40-C1DC-4760-1F00DE2F4831}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDBB9CAA-3B40-C1DC-4760-1F00DE2F4831}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDBB9CAA-3B40-C1DC-4760-1F00DE2F4831}.Release|Any CPU.Build.0 = Release|Any CPU
 		{85567FC1-6ECA-46E9-5E54-EF5D13814294}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{85567FC1-6ECA-46E9-5E54-EF5D13814294}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85567FC1-6ECA-46E9-5E54-EF5D13814294}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,7 +23,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																																				GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																																																				GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

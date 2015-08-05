@@ -20,18 +20,17 @@ public class BoxUpControl : MonoBehaviour {
 
 		//gameObject.GetComponent<Animator>().enabled = false;
 
-		if (pviewer.scenePart == 2){
+		//if (pviewer.scenePart == 2){
 
 		if (manager.enabled == false){
 			manager.enabled = true;
 		}
-
 			gameObject.SetActive(false);
 			manager.Play("up");
-		}
-		else{
-			gameObject.SetActive(false);
-			pviewer.Next();
-		}
+	//	}
+//		else{
+//			gameObject.SetActive(false);
+//			pviewer.Next();
+//		}
 	}
 }

@@ -7,8 +7,9 @@ public class Controller : MonoBehaviour {
 	public int foundCount = 0;
 	public PanelsViewer pviewer;
 	public SmoothCamera sc;
-	UIControll _UI;
-	public QCARBehaviour ARCam;
+	public UIControll _UI;
+	public VuforiaBehaviour ARCam;
+	public VuforiaBehaviour StereoCam;
 
 	void Start () {
 		_UI = GetComponent<UIControll>();
@@ -53,9 +54,13 @@ public class Controller : MonoBehaviour {
 				if (_mode == 2){
 					pviewer.UserMode();
 				}
+
+				if (_mode == 3){
+					_UI.SetActiveScreen("CamModeSelect");
+				}
 			}
 
-			if (ARCam.enabled == false && pviewer.arisON == true)
+			if (ARCam.enabled == false && pviewer.ARmode > 0)
 			{
 				ARCam.enabled = true;
 			}

@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Vuforia;
 
-[RequireComponent(typeof (QCARBehaviour))]
+[RequireComponent(typeof (VuforiaBehaviour))]
 public class SmoothCamera : MonoBehaviour, ITrackerEventHandler  {
 	
 	public int smoothingFrames = 10;
-	private QCARBehaviour qcarBehavior;
+	private VuforiaBehaviour qcarBehavior;
 	
 	private Quaternion smoothedRotation;
 	private Vector3 smoothedPosition;
@@ -26,7 +26,7 @@ public class SmoothCamera : MonoBehaviour, ITrackerEventHandler  {
 		
 		rotations.Enqueue(transform.rotation);
 		positions.Enqueue(transform.position);
-		
+		//VuforiaBehaviour.Instance.
 		Vector4 avgr = Vector4.zero;
 		foreach (Quaternion singleRotation in rotations) {
 			Math3d.AverageQuaternion(ref avgr, singleRotation, rotations.Peek(), rotations.Count);
@@ -46,7 +46,7 @@ public class SmoothCamera : MonoBehaviour, ITrackerEventHandler  {
 	void Start () {
 		rotations = new Queue<Quaternion>(smoothingFrames);
 		positions = new Queue<Vector3>(smoothingFrames);
-		qcarBehavior = GetComponent<QCARBehaviour>();
+		qcarBehavior = GetComponent<VuforiaBehaviour>();
 		qcarBehavior.RegisterTrackerEventHandler(this);
 		
 	}
