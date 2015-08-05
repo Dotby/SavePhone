@@ -277,6 +277,9 @@ public class PanelsViewer : MonoBehaviour {
 				GameObject tmpNew = (GameObject)Instantiate(tmp as Object);
 				tmpNew.transform.SetParent(pointsPanel.transform);
 				tmpNew.transform.localScale = tmpNew.transform.lossyScale;
+				tmpNew.GetComponent<RectTransform>().localScale = Vector3.one;
+				tmpNew.GetComponent<RectTransform>().localRotation = Quaternion.Euler(Vector3.zero); 
+				tmpNew.GetComponent<RectTransform>().localPosition = Vector3.zero;
 				stepPoints[i] = tmpNew.GetComponent<Image>();
 			}
 		}
