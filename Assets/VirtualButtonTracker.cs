@@ -54,7 +54,7 @@ public class VirtualButtonTracker : MonoBehaviour, IVirtualButtonEventHandler
 		if (vb.VirtualButtonName == "center"){
 			//pViewer.VButton(1);
 			Debug.Log("CENTER PUSH: " + (Time.time - startTime));
-			if (Time.time - startTime > 10f)
+			if (Time.time - startTime >= 3f)
 			{
 				Application.LoadLevel("Scene");
 			}

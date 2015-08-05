@@ -47,7 +47,13 @@ public class UIControll : MonoBehaviour {
 		SetActiveScreen("WelcomeScreen");
 #elif UNITY_IOS
 		Debug.Log("Run on Iphone");
-		Invoke("StartOnDevice", 5.0f);
+		if (Application.loadedLevelName == "SceneVR"){
+			//pviewer.ARmode = 2;
+			SetActiveScreen("AboutScreen");
+		}else{
+			Invoke("StartOnDevice", 5.0f);
+		}
+
 #endif
 
 	}

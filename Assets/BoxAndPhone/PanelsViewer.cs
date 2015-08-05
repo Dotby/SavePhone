@@ -107,10 +107,12 @@ public class PanelsViewer : MonoBehaviour {
 			//Next();
 
 			visible = true;
+			animPhone.speed = 1f;
+			boxUp.gameObject.SetActive(true);
+			boxUp.speed = 1f;
 			boxUp.Play("upme");
 
-			animPhone.speed = 1f;
-			boxUp.speed = 1f;
+
 		}
 
 		//StopAnimation();

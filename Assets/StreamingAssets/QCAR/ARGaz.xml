@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<QCARConfig>
-    <Tracking>
-        <ImageTarget name="frontMARKER" size="20.000000 42.250000"/>
-        <ImageTarget name="backMARKER" size="20.000000 42.250000"/>
-        <ImageTarget name="marker2" size="20.000000 34.785275"/>
-        <ImageTarget name="marker1" size="20.000000 34.785275"/>
-        <ImageTarget name="mobile.Left" size="15.200000 2.499329"/>
-        <ImageTarget name="mobile.Top" size="7.200000 15.210000"/>
-        <ImageTarget name="mobile.Bottom" size="7.200000 15.205970"/>
-        <MultiTarget name="mobile">
-            <Part name="mobile.Left" translation="-3.5999999046325684 0 0" rotation="AD: 0 1 0 -90"/>
-            <Part name="mobile.Top" translation="0 1.25 0" rotation="AD: 1 0 0 -90"/>
-            <Part name="mobile.Bottom" translation="0 -1.25 0" rotation="AD: 1 0 0 90"/>
-        </MultiTarget>
-    </Tracking>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="sfmarker2" size="100.000000 141.451614" />
+  </Tracking>
 </QCARConfig>
