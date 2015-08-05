@@ -45,7 +45,12 @@ public class UIControll : MonoBehaviour {
 		//SetActiveScreen("AboutScreen");
 #elif UNITY_ANDROID
 		Debug.Log("Run on Android");
-		SetActiveScreen("WelcomeScreen");
+		if (Application.loadedLevelName == "SceneVR"){
+			//pviewer.ARmode = 2;
+			SetActiveScreen("AboutScreen");
+		}else{
+			SetActiveScreen("WelcomeScreen");
+		}
 #elif UNITY_IOS
 		Debug.Log("Run on Iphone");
 		if (Application.loadedLevelName == "SceneVR"){

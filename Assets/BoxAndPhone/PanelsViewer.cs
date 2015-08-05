@@ -103,6 +103,8 @@ public class PanelsViewer : MonoBehaviour {
 			lastMode = 2;
 			ARmode = 2;
 
+			IngMode();
+				
 			pointsPanel.SetActive(true);
 			InitStepIcons();
 			//Next();

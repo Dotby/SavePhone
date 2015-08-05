@@ -59,6 +59,11 @@ public class Controller : MonoBehaviour {
 				if (_mode == 3){
 					_UI.SetActiveScreen("CamModeSelect");
 				}
+
+				if (_mode == 4){
+					pviewer.ARmode = 1;
+					_UI.SetActiveScreen("SelectMode");
+				}
 			}
 
 			if (ARCam.enabled == false && pviewer.ARmode == 1)
