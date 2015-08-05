@@ -15,7 +15,7 @@ public class PanelsViewer : MonoBehaviour {
 	public MeshRenderer screenTexture;
 
 	public int mode = -1;
-	int lastMode = 0;
+	public int lastMode = 0;
 	public GameObject ingPan;
 
 	GameObject activePan = null;
@@ -289,7 +289,7 @@ public class PanelsViewer : MonoBehaviour {
 		foreach(Image img in stepPoints){
 			img.color = offColor;
 		}
-
+		//Привет парень) Не хочешь сделать эту часть кода....... защищенной..? м??
 		stepPoints[panNum].color = onColor;
 
 		AudioSource.PlayClipAtPoint(clickSnd, Vector3.zero, .5f);
@@ -437,7 +437,7 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	public void ShowAll(){
-
+		mode = lastMode;
 		if (ARmode == 0) {return;}
 
 		canClick = true;
@@ -465,7 +465,7 @@ public class PanelsViewer : MonoBehaviour {
 		}
 
 		HideTip();
-		mode = lastMode;
+
 
 		if (mode == 2 || mode == 1){
 			infoText.Reshow();
