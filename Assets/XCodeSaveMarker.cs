@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Runtime.InteropServices;
 
-public static class XCodeSaveMArker {
+public static class XCodeSaveMarker {
 	
 	[DllImport ("__Internal")]
 	private static extern void _SaveVRImage (string type);

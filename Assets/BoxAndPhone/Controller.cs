@@ -11,9 +11,10 @@ public class Controller : MonoBehaviour {
 	public VuforiaBehaviour ARCam;
 	public VuforiaBehaviour StereoCam;
 
+
 	void Start () {
 		_UI = GetComponent<UIControll>();
-		XCodeSaveMArker.SaveMarkerToAlbum();
+		//XCodeSaveMArker.SaveMarkerToAlbum();
 	}
 
 	void Update () {

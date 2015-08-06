@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using System.IO;
 //using Vuforia;
 
 public class PanelsViewer : MonoBehaviour {
@@ -51,7 +52,10 @@ public class PanelsViewer : MonoBehaviour {
 
 	public GameObject[] animationsParts;
 
+	public GameObject askPan;
+
 	public int ARmode = 0;
+	public Texture2D markerToSave;
 
 	string[] texts = new string[]{
 		"Обеспечивает коммуникации по каналам операторов мобильной связи.",
@@ -129,11 +133,16 @@ public class PanelsViewer : MonoBehaviour {
 			if (obj != null){
 				obj.SetActive(false);
 			}
-
 		}
 		//infoText.GetComponent<Image>().enabled = false;
+
+		if (askPan != null){
+			askPan.SetActive(false);
+		}
 		infoText.ShowText("Защищенное корпоративное устройство\nпод управлением системы\nSafePhonePLUS");
 	}
+
+
 
 	public void GoToMain(){
 		//Application.loadedLevelName == "Scene"
@@ -165,8 +174,8 @@ public class PanelsViewer : MonoBehaviour {
 
 		if (fmode == 0){
 			_CONTROLLER.ARCam.enabled = false;
-			_CONTROLLER.ARCam.gameObject.transform.position = new Vector3(120f, 215f, -345f);
-			_CONTROLLER.ARCam.gameObject.transform.rotation = Quaternion.Euler(29f, 333f, 0f);
+			_CONTROLLER.ARCam.gameObject.transform.position = new Vector3(-15.9f, 47.5f, -53.4f);
+			_CONTROLLER.ARCam.gameObject.transform.rotation = Quaternion.Euler(36.7f, 330.3f, 355f);
 
 			animPhone.gameObject.SetActive(true);
 
@@ -186,7 +195,8 @@ public class PanelsViewer : MonoBehaviour {
 		}
 
 		if (fmode == 2){
-			Application.LoadLevel("SceneVR");
+				PlayerPrefs.SetInt("firstStart", 0);
+				Application.LoadLevel("SceneVR");
 			return;
 //			Debug.Log("TRY SWITCH ON STEREO...");
 //			_CONTROLLER.ARCam.enabled = false;
@@ -208,6 +218,67 @@ public class PanelsViewer : MonoBehaviour {
 			_CONTROLLER._UI.SetActiveScreen("AboutScreen");
 		}
 		//SetLightToARCamera(onoff);
+	}
+
+	void SaveMarkerOnAndroid(){
+		askPan.transform.GetChild(1).gameObject.SetActive(true);
+		string path = ParseAndroidPath();
+		Debug.Log(path);
+		if (path != ""){
+			askPan.transform.GetChild(1).gameObject.GetComponentInChildren<Text>().text = askPan.transform.GetChild(1).gameObject.GetComponentInChildren<Text>().text + "\n\nСохранено в: \n" + path;
+			File.WriteAllBytes(Application.persistentDataPath + "/markerVR.jpg", markerToSave.EncodeToJPG());
+		}else{
+			askPan.transform.GetChild(1).gameObject.GetComponentInChildren<Text>().text = "Возникла ошибка при сохраении маркера!";
+		}
+	}
+
+	string ParseAndroidPath(){
+
+		string startPath = Application.persistentDataPath;
+		string endPath = "";
+		string[] locations = startPath.Split('/');
+		int allCount = locations.Length;
+
+		for (int i = 0; i < locations.Length; i++){
+			//"android"
+			if (locations[i].ToLower() == "Android"){
+				for (int k = i; k < locations.Length; k++)
+				{
+					endPath = endPath + locations[k] + "/";
+				}
+
+				return endPath;
+			}
+		}
+
+		return "";
+	}
+
+	public void SaveMarker(){
+		#if UNITY_IOS
+			XCodeSaveMarker.SaveMarkerToAlbum();
+		#elif UNITY_ANDROID
+			SaveMarkerOnAndroid();
+		#endif
+
+		askPan.transform.GetChild(0).gameObject.SetActive(false);
+		askPan.transform.GetChild(1).gameObject.SetActive(true);
+	}
+
+	public void IHaveMArker(){
+		//askPan.SetActive(false);
+		PlayerPrefs.SetInt("firstStart", 0);
+		Application.LoadLevel("SceneVR");
+		//askPan.transform.GetChild(0).gameObject.SetActive(true);
+		//askPan.transform.GetChild(1).gameObject.SetActive(false);
+	}
+
+	public void AskUserForMarker(){
+		if (askPan != null){
+			askPan.SetActive(true);
+			askPan.transform.GetChild(0).gameObject.SetActive(true);
+			askPan.transform.GetChild(1).gameObject.SetActive(false);
+		}
 	}
 
 	public void VButton(int bt){
@@ -243,7 +314,6 @@ public class PanelsViewer : MonoBehaviour {
 				}
 			}
 		}
-
 	}
 	
 	public void InitStepIcons(){
