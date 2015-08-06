@@ -224,9 +224,9 @@ public class PanelsViewer : MonoBehaviour {
 		askPan.transform.GetChild(1).gameObject.SetActive(true);
 		string path = ParseAndroidPath();
 		Debug.Log(path);
+		File.WriteAllBytes(Application.persistentDataPath + "/markerVR.jpg", markerToSave.EncodeToJPG());
 		if (path != ""){
 			askPan.transform.GetChild(1).gameObject.GetComponentInChildren<Text>().text = askPan.transform.GetChild(1).gameObject.GetComponentInChildren<Text>().text + "\n\nСохранено в: \n" + path;
-			File.WriteAllBytes(Application.persistentDataPath + "/markerVR.jpg", markerToSave.EncodeToJPG());
 		}else{
 			askPan.transform.GetChild(1).gameObject.GetComponentInChildren<Text>().text = "Возникла ошибка при сохраении маркера!";
 		}
@@ -241,7 +241,7 @@ public class PanelsViewer : MonoBehaviour {
 
 		for (int i = 0; i < locations.Length; i++){
 			//"android"
-			if (locations[i].ToLower() == "Android"){
+			if (locations[i].ToLower() == "android"){
 				for (int k = i; k < locations.Length; k++)
 				{
 					endPath = endPath + locations[k] + "/";
