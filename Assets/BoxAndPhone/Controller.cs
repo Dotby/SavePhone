@@ -13,6 +13,7 @@ public class Controller : MonoBehaviour {
 
 	void Start () {
 		_UI = GetComponent<UIControll>();
+		XCodeSaveMArker.SaveMarkerToAlbum();
 	}
 
 	void Update () {

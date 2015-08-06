@@ -9,6 +9,7 @@ public class UIControll : MonoBehaviour {
 	public GameObject _CANVAS;
 	public Controller _CONTROLLER;
 	public PanelsViewer pviewer;
+	public bool isFirstLoad = true;
 	
 	void Start () {
 		_CONTROLLER = GetComponent<Controller>();
@@ -30,38 +31,90 @@ public class UIControll : MonoBehaviour {
 		foreach(GameObject _pan in _UIScreens){
 			_pan.SetActive(false);
 		}
+
+
+
+		if (PlayerPrefs.HasKey("firstStart")){
+			Debug.Log("Founs fs = " + PlayerPrefs.GetInt("firstStart"));
+			if (PlayerPrefs.GetInt("firstStart") == 0){
+				isFirstLoad = false;
+			}
+
+			if (PlayerPrefs.GetInt("firstStart") == 1){
+				isFirstLoad = true;
+			}
+
+			if (PlayerPrefs.GetInt("firstStart") == 2){
+				isFirstLoad = false;
+			}
+		}
+		else{
+			Debug.Log("NOT Founs fs");
+
+			isFirstLoad = true;
+		}
+//
+//		PlayerPrefs.SetInt("firstStart", 1);
+//		PlayerPrefs.Save();
 	
 
 #if UNITY_EDITOR
 		//_CONTROLLER.SetModeTo(0);
 		Debug.Log("Run in Editor");
-		if (Application.loadedLevelName == "SceneVR"){
-			//pviewer.ARmode = 2;
-			SetActiveScreen("AboutScreen");
-		}else{
-			SetActiveScreen("CamModeSelect");
-			//SetActiveScreen("WelcomeScreen");
-		}
+		LoadFirstScene();
 		//SetActiveScreen("AboutScreen");
 #elif UNITY_ANDROID
 		Debug.Log("Run on Android");
-		if (Application.loadedLevelName == "SceneVR"){
-			//pviewer.ARmode = 2;
-			SetActiveScreen("AboutScreen");
-		}else{
-			SetActiveScreen("WelcomeScreen");
-		}
+		LoadFirstScene();
 #elif UNITY_IOS
 		Debug.Log("Run on Iphone");
 		if (Application.loadedLevelName == "SceneVR"){
-			//pviewer.ARmode = 2;
-			SetActiveScreen("AboutScreen");
+			LoadFirstScene();
 		}else{
-			Invoke("StartOnDevice", 5.0f);
+			Invoke("LoadFirstScene", 5.0f);
 		}
 
 #endif
 
+	}
+
+	void SetOrientation(){
+		if (Application.loadedLevelName == "SceneVR"){
+			Screen.autorotateToLandscapeLeft = true;
+			Screen.autorotateToLandscapeRight = true;
+			Screen.autorotateToPortrait = false;
+			Screen.autorotateToPortraitUpsideDown = false;
+		}
+		else
+		{
+			Screen.autorotateToLandscapeLeft = false;
+			Screen.autorotateToLandscapeRight = false;
+			
+			Screen.autorotateToPortrait = true;
+			Screen.autorotateToPortraitUpsideDown = false;
+			
+			Screen.orientation = ScreenOrientation.Portrait;
+			//SetActiveScreen("CamModeSelect");
+			//SetActiveScreen("WelcomeScreen");
+		}
+	}
+
+	void LoadFirstScene(){
+		Debug.Log("First = " + isFirstLoad);
+		if (isFirstLoad == true){
+			SetActiveScreen("WelcomeScreen");
+		}
+		else{
+			SetActiveScreen("CamModeSelect");
+		}
+
+		PlayerPrefs.SetInt("firstStart", 1);
+
+		if (Application.loadedLevelName == "SceneVR"){
+			SetActiveScreen("AboutScreen");
+		}
+
+		SetOrientation();
 	}
 
 	void StartOnDevice()

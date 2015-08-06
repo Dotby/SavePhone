@@ -135,6 +135,14 @@ public class PanelsViewer : MonoBehaviour {
 		infoText.ShowText("Защищенное корпоративное устройство\nпод управлением системы\nSafePhonePLUS");
 	}
 
+	public void GoToMain(){
+		//Application.loadedLevelName == "Scene"
+	//	if (ARmode > 0){
+			PlayerPrefs.SetInt("firstStart", 0);
+				Application.LoadLevel("Scene");
+		//}
+	}
+
 	public void SwitchARToMode(int fmode){
 		if (fmode > 0 && fmode <= 2){
 			ARmode = fmode;
