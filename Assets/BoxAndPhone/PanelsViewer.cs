@@ -53,6 +53,7 @@ public class PanelsViewer : MonoBehaviour {
 	public GameObject[] animationsParts;
 
 	public GameObject askPan;
+	public GameObject waiter;
 
 	public int ARmode = 0;
 	public Texture2D markerToSave;
@@ -196,6 +197,7 @@ public class PanelsViewer : MonoBehaviour {
 
 		if (fmode == 2){
 				PlayerPrefs.SetInt("firstStart", 0);
+				waiter.SetActive(true);
 				Application.LoadLevel("SceneVR");
 			return;
 //			Debug.Log("TRY SWITCH ON STEREO...");
@@ -268,6 +270,8 @@ public class PanelsViewer : MonoBehaviour {
 	public void IHaveMArker(){
 		//askPan.SetActive(false);
 		PlayerPrefs.SetInt("firstStart", 0);
+
+		waiter.SetActive(true);
 		Application.LoadLevel("SceneVR");
 		//askPan.transform.GetChild(0).gameObject.SetActive(true);
 		//askPan.transform.GetChild(1).gameObject.SetActive(false);
