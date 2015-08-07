@@ -149,7 +149,8 @@ public class PanelsViewer : MonoBehaviour {
 		//Application.loadedLevelName == "Scene"
 	//	if (ARmode > 0){
 			PlayerPrefs.SetInt("firstStart", 0);
-				Application.LoadLevel("Scene");
+			waiter.SetActive(true);
+			Application.LoadLevel("Scene");
 		//}
 	}
 
