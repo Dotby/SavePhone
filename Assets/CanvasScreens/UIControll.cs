@@ -32,7 +32,7 @@ public class UIControll : MonoBehaviour {
 			_pan.SetActive(false);
 		}
 
-
+		SetOrientation();
 
 		if (PlayerPrefs.HasKey("firstStart")){
 			Debug.Log("Founs fs = " + PlayerPrefs.GetInt("firstStart"));
@@ -100,6 +100,9 @@ public class UIControll : MonoBehaviour {
 	}
 
 	void LoadFirstScene(){
+
+
+
 		Debug.Log("First = " + isFirstLoad);
 		if (isFirstLoad == true){
 			SetActiveScreen("WelcomeScreen");
@@ -114,7 +117,7 @@ public class UIControll : MonoBehaviour {
 			SetActiveScreen("AboutScreen");
 		}
 
-		SetOrientation();
+
 	}
 
 	void StartOnDevice()

@@ -7,7 +7,7 @@ public class BodyControl : MonoBehaviour {
 
 	public AudioClip[] snds;
 
-	// Use this for initialization
+	// Use this for initialization 
 	void Start () {
 		gameObject.GetComponent<Animator>().Play("idleoff");
 		man = transform.parent.gameObject.GetComponent<EngineerControlAnim>();

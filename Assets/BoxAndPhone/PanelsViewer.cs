@@ -55,6 +55,9 @@ public class PanelsViewer : MonoBehaviour {
 	public GameObject askPan;
 	public GameObject waiter;
 
+	public GameObject bigIcons;
+	public Texture2D[] bigIconsTex;
+
 	public int ARmode = 0;
 	public Texture2D markerToSave;
 
@@ -66,12 +69,13 @@ public class PanelsViewer : MonoBehaviour {
 		"Пыленепроницаемый: пыль не проникает внутрь корпуса.",
 		"Ударопрочный: стойкость к падению с большой высоты.",
 		"Водонепроницаемый: выдерживает погружение на глубину до 1 м.",
-		////
+		///
 		"Устойчивый 4,5 дюймовый экран Corning Gorilla Glass 2 сопротивляется царапинам и повреждениям при падении.",
 		"Резиновый корпус смягчает механические удары, защищает телефон от воды и пыли.",
+
 		"Две встроенные фото- и видеокамеры по 13 Мп. позволяют делать высококачественную фото- и видеосъемку при сильном или слабом свете.",
+		//10...
 		"Емкая батарея Li-Ion 4200 мАч. — время работы в режиме разговора 1520 минут, в режиме ожидания 380 часов.",
-		//"Профессиональная рация PTT позволяет общаться на расстоянии до 5 км.",
 		"Кнопка SOS для определения местоположения и отправки сигнала на заданный номер.",
 		"Фонарик и лазерная указка для упрощения взаимодействия."
 	};
@@ -102,8 +106,10 @@ public class PanelsViewer : MonoBehaviour {
 
 	void Start () {
 
+		bigIcons.SetActive(false);
+
 		if (Application.loadedLevelName == "SceneVR"){
-			_CONTROLLER._UI.SetActiveScreen("AboutScreen");
+			//_CONTROLLER._UI.SetActiveScreen("AboutScreen");
 			mode = 2;
 			lastMode = 2;
 			ARmode = 2;
@@ -307,7 +313,7 @@ public class PanelsViewer : MonoBehaviour {
 
 			if (Input.touchCount > 0 &&  Input.GetTouch(0).phase == TouchPhase.Moved) {
 				Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
-				Debug.Log("touch: "+touchDeltaPosition);
+				//Debug.Log("touch: "+touchDeltaPosition);
 				if (touchDeltaPosition.x > 40f)
 				{
 					Prev();
@@ -369,6 +375,9 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	public void SetActivePoint(){
+
+		//man.DownEnd();
+
 		foreach(Image img in stepPoints){
 			img.color = offColor;
 		}
@@ -380,37 +389,50 @@ public class PanelsViewer : MonoBehaviour {
 		bool changed = false;
 
 		if (mode == 2){
-			if (panNum < 7){
-				if (scenePart == 2){
-					animPhone.Play("fastDown");
-					changed = true;
-				}
+//			if (panNum < 7){
+//				if (scenePart == 2){
+//				//	animPhone.Play("fastDown");
+//					animPhone.Play("fastUp");
+//					changed = true;
+//				}
+//
+//				scenePart = 1;
+//			}
+//			else{
+//				if (scenePart == 1){
+//					//animPhone.Play("fastUp");
+//					animPhone.Play("fastDown");
+//					changed = true;
+//				}
+//
+//				scenePart = 2;
+//			}
+//
+//			ShowScreen(-1);
 
-				scenePart = 1;
+			if (bigIconsTex[panNum] != null){
+				bigIcons.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = bigIconsTex[panNum];
+				bigIcons.SetActive(true);
+			}else{
+				bigIcons.SetActive(false);
 			}
-			else{
-				if (scenePart == 1){
-					animPhone.Play("fastUp");
-					changed = true;
-				}
-
-				scenePart = 2;
-			}
-
-			ShowScreen(-1);
-			
 			
 			switch(panNum){
-			case 0: ShowScreen(3); break;
-			case 3: ShowScreen(2); break;
-			case 2: ShowScreen(6); break;
-			case 5: man.Show(true); break;
-			case 6: man.Show(false); break;
-			case 8: animPhone.Play("showLeft"); break;
-			case 9: ShowScreen(5); break;
-			case 10: ShowScreen(0); animPhone.Play("showBack"); changed = true; break;
-			case 11: ShowScreen(7); animPhone.Play("showLeft"); changed = true; break;
-			case 7: ShowScreen(4); break;
+			case 0: ShowScreen(3); man.ShowAnim("Talk1"); break;
+			case 1: ShowScreen(3); man.ShowAnim("Talk1"); break;
+			case 3: ShowScreen(2); man.ShowAnim("Gps"); break;
+			case 2: ShowScreen(6); man.ShowAnim("WalkieTalkie"); break;
+			case 4: ShowScreen(8); man.ShowAnim("Clean"); break;
+			case 5: ShowScreen(8); man.ShowAnim("axe"); break;
+
+			case 6: ShowScreen(8); man.ShowAnim("water"); break;
+			case 7: ShowScreen(4); man.ShowAnim("Screw"); break;
+			case 8: ShowScreen(8); man.ShowAnim("Body"); break; //animPhone.Play("showLeft");
+			case 9: ShowScreen(5); animPhone.Play("idleDown"); man.ShowAnim("Photo"); break;
+			case 10: ShowScreen(0); animPhone.Play("showBack");  break; // changed = true; 
+			case 11: ShowScreen(7); animPhone.Play("idleDown"); man.ShowAnim("Sos"); break; //animPhone.Play("showLeft"); changed = true; // showleft
+			case 12: man.ShowAnim("LaserLight"); break; animPhone.Play("fastDown");
+			
 				
 			default: 
 				break;
@@ -425,7 +447,8 @@ public class PanelsViewer : MonoBehaviour {
 				animPhone.Play("idleDown");
 			}
 			if (scenePart == 2){
-				animPhone.Play("idleUp");
+				animPhone.Play("idleDown");
+				//animPhone.Play("idleUp");
 			}
 		}
 
@@ -493,9 +516,9 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 
-	public void ShowMan(){
-		man.Show(true);
-	}
+//	public void ShowMan(){
+//		man.Show(true);
+//	}
 
 	public void StopAnimation(){
 		animPhone.speed = 0;
@@ -573,6 +596,11 @@ public class PanelsViewer : MonoBehaviour {
 
 	public void IngMode(){
 		if (mode == 1){return;}
+
+		canClick = true;
+
+		//man.anim.speed = 0;
+		man.HideForce();
 
 		if (ARmode == 0){
 			visible = true;
@@ -674,12 +702,13 @@ public class PanelsViewer : MonoBehaviour {
 	public void Prev()
 	{
 		if (mode == 0 || canClick == false) {return;}
-		canClick = false;
+		//canClick = false;
 
 
 		//ingPan.SetActive(false);
 		
 		if (mode == 2){
+
 			if (panNum - 1 >= 0){
 				panNum--;
 			}else{
@@ -688,7 +717,7 @@ public class PanelsViewer : MonoBehaviour {
 			
 			infoText.ShowText(texts[panNum]);
 
-			Invoke("AcceptClic", 2f);
+			//Invoke("AcceptClic", 2f);
 		}else{
 			if (panNum - 1 >= 0){
 				panNum--;
@@ -696,7 +725,7 @@ public class PanelsViewer : MonoBehaviour {
 				panNum = texts2.Length - 1;
 			}
 			infoText.ShowText(texts2[panNum]);
-			Invoke("AcceptClic", 1f);
+			//Invoke("AcceptClic", 1f);
 		}
 		
 		SetActivePoint();
@@ -704,15 +733,17 @@ public class PanelsViewer : MonoBehaviour {
 	
 	public void Next()
 	{
-		if (mode == 0 || canClick == false) {return;}
-		canClick = false;
+		if (mode == 0 || canClick == false)  {return;} // || canClick == false) 
+		//canClick = false;
 		//Invoke("AcceptClic", 2f);
+
+
 
 		//ingPan.SetActive(false);
 
 
-
 		if (mode == 2){
+
 			if (panNum + 1 < texts.Length){
 				panNum++;
 			}else{
@@ -720,7 +751,7 @@ public class PanelsViewer : MonoBehaviour {
 			}
 
 			infoText.ShowText(texts[panNum]);
-			Invoke("AcceptClic", 2f);
+			//Invoke("AcceptClic", 2f);
 		}else{
 			if (panNum + 1 < texts2.Length){
 				panNum++;
@@ -728,7 +759,7 @@ public class PanelsViewer : MonoBehaviour {
 				panNum = 0;
 			}
 			infoText.ShowText(texts2[panNum]);
-			Invoke("AcceptClic", 1f);
+			//Invoke("AcceptClic", 1f);
 		}
 	
 		if (activePart != null){

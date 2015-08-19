@@ -84,7 +84,9 @@ namespace Vuforia
             }
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
-			GameObject.Find("Manager").GetComponent<Controller>().Found();
+			if (GameObject.Find("Manager") != null){
+				GameObject.Find("Manager").GetComponent<Controller>().Found();
+			}
 
         }
 
@@ -107,7 +109,9 @@ namespace Vuforia
             }
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
-			GameObject.Find("Manager").GetComponent<Controller>().Lost();
+			if (GameObject.Find("Manager") != null){
+				GameObject.Find("Manager").GetComponent<Controller>().Lost();
+			}
         }
 
         #endregion // PRIVATE_METHODS
