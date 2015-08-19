@@ -32,7 +32,7 @@ public class UIControll : MonoBehaviour {
 			_pan.SetActive(false);
 		}
 
-		SetOrientation();
+		//SetOrientation();
 
 		if (PlayerPrefs.HasKey("firstStart")){
 			Debug.Log("Founs fs = " + PlayerPrefs.GetInt("firstStart"));
@@ -76,6 +76,11 @@ public class UIControll : MonoBehaviour {
 
 #endif
 
+	}
+
+	void OnLevelWasLoaded(int lvl){
+
+		SetOrientation ();
 	}
 
 	void SetOrientation(){

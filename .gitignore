@@ -44,4 +44,5 @@ Temporary Items
 
 # Ignore UNITY dir
 /Library/*
+/build/*
 /Temp/*
