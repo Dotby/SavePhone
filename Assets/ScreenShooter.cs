@@ -10,9 +10,14 @@ public class ScreenShooter : MonoBehaviour {
 	public GameObject button;
 	public AudioClip shot;
 
-	
+	public Texture2D texture;
+	bool saved = false;
+	bool saved2 = false;
+
+
 	void Start () {
-	
+		ScreenshotManager.ScreenshotFinishedSaving += ScreenshotSaved;
+		ScreenshotManager.ImageFinishedSaving += ImageSaved;
 	}
 
 	void Update () {
@@ -27,18 +32,32 @@ public class ScreenShooter : MonoBehaviour {
 		}
 	}
 
+	void ScreenshotSaved()
+	{
+		Debug.Log ("screenshot finished saving");
+		saved = true;
+	}
+	
+	void ImageSaved()
+	{
+		Debug.Log (texture.name + " finished saving");
+		saved2 = true;
+	}
+	
 	public void MakeScreenshot(){
 
-		if (Application.platform == RuntimePlatform.Android){
-			StartCoroutine(ScreenShotBridge.SaveScreenShot(fileName,albumName,isScreenShotWithDateTime,ScreenShotStatus));
-		}
+		StartCoroutine(ScreenshotManager.Save("MyScreenshot", "MyApp", true));
 
-		if (Application.platform == RuntimePlatform.IPhonePlayer){
-			StartCoroutine(ScreenShotBridge.SaveScreenShot(fileName,albumName,isScreenShotWithDateTime,ScreenShotStatus));	
-		}
+//		if (Application.platform == RuntimePlatform.Android){
+//			//StartCoroutine(ScreenShotBridge.SaveScreenShot(fileName,albumName,isScreenShotWithDateTime,ScreenShotStatus));
+//		}
+//
+//		if (Application.platform == RuntimePlatform.IPhonePlayer){
+//			//StartCoroutine(ScreenShotBridge.SaveScreenShot(fileName,albumName,isScreenShotWithDateTime,ScreenShotStatus));	
+//		}
 
-		isScreenShotSave = false;
-		button.SetActive(false);
+		//isScreenShotSave = false;
+		//button.SetActive(false);
 	}
 
 	void ScreenShotStatus(bool status)

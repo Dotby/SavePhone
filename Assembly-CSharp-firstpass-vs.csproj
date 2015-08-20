@@ -46,7 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Plugins\ScreenShotBridge.cs" />
+     <Compile Include="Assets\Plugins\ScreenshotManager.cs" />
      <None Include="Assets\readme_SDK.txt" />
      <None Include="Assets\license_3rdpartynotice.txt" />
      <None Include="Assets\Toony Gooch Pro\Shaders\TGP_Bump_Rim_OneLight.shader" />

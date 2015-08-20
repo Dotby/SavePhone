@@ -69,6 +69,7 @@
      <Compile Include="Assets\Reporter\Test\Rotate.cs" />
      <Compile Include="Assets\Reporter\Test\TestReporter.cs" />
      <Compile Include="Assets\ScreenShooter.cs" />
+     <Compile Include="Assets\Scripts\GalleryScreenshotExample.cs" />
      <Compile Include="Assets\Test\MiniGestureRecognizer.cs" />
      <Compile Include="Assets\Toony Gooch Pro\Demo\Assets\GUIT_Button.cs" />
      <Compile Include="Assets\Toony Gooch Pro\Demo\Assets\GUIT_Button_Simple.cs" />
