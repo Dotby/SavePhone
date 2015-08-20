@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BoxAndPhone\AutofocusSwitcher.cs" />
      <Compile Include="Assets\BoxAndPhone\BoxUpControl.cs" />
      <Compile Include="Assets\BoxAndPhone\Controller.cs" />
      <Compile Include="Assets\BoxAndPhone\EngineerControlAnim.cs" />
@@ -67,6 +68,7 @@
      <Compile Include="Assets\Reporter\ReporterMessageReceiver.cs" />
      <Compile Include="Assets\Reporter\Test\Rotate.cs" />
      <Compile Include="Assets\Reporter\Test\TestReporter.cs" />
+     <Compile Include="Assets\ScreenShooter.cs" />
      <Compile Include="Assets\Test\MiniGestureRecognizer.cs" />
      <Compile Include="Assets\Toony Gooch Pro\Demo\Assets\GUIT_Button.cs" />
      <Compile Include="Assets\Toony Gooch Pro\Demo\Assets\GUIT_Button_Simple.cs" />
@@ -168,6 +170,10 @@
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>C:/Program Files (x86)/Unity32/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass-vs.csproj">
+      <Project>{DDBB9CAA-3B40-C1DC-4760-1F00DE2F4831}</Project>      <Name>Assembly-CSharp-firstpass-vs</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

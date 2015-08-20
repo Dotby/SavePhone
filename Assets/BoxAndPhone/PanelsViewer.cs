@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System.IO;
+using UnityEngine.Analytics;
+using System.Collections.Generic;
 //using Vuforia;
 
 public class PanelsViewer : MonoBehaviour {
@@ -36,7 +38,7 @@ public class PanelsViewer : MonoBehaviour {
 	public Color onColor;
 	Color offColor;
 
-
+	bool slideShow = false;
 
 	public InfoTextPanel infoText;
 
@@ -105,7 +107,7 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	void Start () {
-
+	
 		bigIcons.SetActive(false);
 
 		if (Application.loadedLevelName == "SceneVR"){
@@ -149,15 +151,34 @@ public class PanelsViewer : MonoBehaviour {
 		infoText.ShowText("Защищенное корпоративное устройство\nпод управлением системы\nSafePhonePLUS");
 	}
 
-
-
 	public void GoToMain(){
+
+		if (mode == -1) {return;}
 		//Application.loadedLevelName == "Scene"
 	//	if (ARmode > 0){
 			PlayerPrefs.SetInt("firstStart", 0);
 			waiter.SetActive(true);
 			Application.LoadLevel("Scene");
 		//}
+	}
+
+	public void SwitchAutoPlay(){
+
+		slideShow = !slideShow;
+
+		if (slideShow == true){
+			StartSlideShow();
+		}else{
+			StopSlideShow();
+		}
+	}
+
+	void StartSlideShow(){
+		InvokeRepeating("Next", 2f, 4f);
+	}
+
+	void StopSlideShow(){
+		CancelInvoke("Next");
 	}
 
 	public void SwitchARToMode(int fmode){
@@ -182,8 +203,9 @@ public class PanelsViewer : MonoBehaviour {
 
 		if (fmode == 0){
 			_CONTROLLER.ARCam.enabled = false;
-			_CONTROLLER.ARCam.gameObject.transform.position = new Vector3(-15.9f, 47.5f, -53.4f);
-			_CONTROLLER.ARCam.gameObject.transform.rotation = Quaternion.Euler(36.7f, 330.3f, 355f);
+			_CONTROLLER.ARCam.gameObject.GetComponent<SmoothCamera>().enabled = false;
+			_CONTROLLER.ARCam.gameObject.transform.position = new Vector3(-15.9f, 47.5f, -53.4f);//-39.62f, 24.3f, -40.2f);
+			_CONTROLLER.ARCam.gameObject.transform.rotation = Quaternion.Euler(36.7f, 330.3f, 355f);//29.6f, 353f, 0f);
 
 			animPhone.gameObject.SetActive(true);
 
@@ -200,6 +222,8 @@ public class PanelsViewer : MonoBehaviour {
 						}
 
 			holeObj.SetActive(false);
+		}else{
+			_CONTROLLER.ARCam.gameObject.GetComponent<SmoothCamera>().enabled = true;
 		}
 
 		if (fmode == 2){
@@ -292,6 +316,26 @@ public class PanelsViewer : MonoBehaviour {
 		}
 	}
 
+	public void AnalTest(){
+		Analytics.Transaction("12345abcde", 150.55m, "RUB", null, null);
+
+//		int totalPotions = 5;
+//		int totalCoins = 100;
+//		string weaponID = "Weapon_102";
+//		Analytics.CustomEvent("gameOver", new Dictionary<string, object>
+//		                      {
+//			{ "potions", totalPotions },
+//			{ "coins", totalCoins },
+//			{ "activeWeapon", weaponID }
+//		});
+
+		Gender gender = Gender.Female;
+		Analytics.SetUserGender(gender);
+		
+		int birthYear = 2014;
+		Analytics.SetUserBirthYear(birthYear);
+	}
+
 	public void VButton(int bt){
 		if (bt == 0){
 			Prev();
@@ -309,7 +353,16 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	void Update () {
-		if (ARmode != 2){
+
+		if (Application.platform == RuntimePlatform.Android)
+		{
+			if (Input.GetKey(KeyCode.Escape))
+			{
+				GoToMain();
+			}
+		}
+			
+			if (ARmode != 2){
 
 			if (Input.touchCount > 0 &&  Input.GetTouch(0).phase == TouchPhase.Moved) {
 				Vector2 touchDeltaPosition = Input.GetTouch(0).deltaPosition;
@@ -513,6 +566,11 @@ public class PanelsViewer : MonoBehaviour {
 		visible = false;
 		infoText.HideSelf();
 		pointsPanel.SetActive(false);
+		ShowTip();
+	}
+
+	public void Focus(){
+
 	}
 
 
