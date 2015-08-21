@@ -63,6 +63,8 @@ public class PanelsViewer : MonoBehaviour {
 	public int ARmode = 0;
 	public Texture2D markerToSave;
 
+	public bool canReturn = false;
+
 	string[] texts = new string[]{
 		"Обеспечивает коммуникации по каналам операторов мобильной связи.",
 		"Обеспечивает шифрованные мобильные переговоры.",
@@ -152,10 +154,14 @@ public class PanelsViewer : MonoBehaviour {
 	}
 
 	public void GoToMain(){
-
-		if (mode == -1) {return;}
+//		Debug.Log("canReturn: " + canReturn);
+//		if (canReturn == false) {return;} 
+		//if (mode == -1) {return;}
 		//Application.loadedLevelName == "Scene"
 	//	if (ARmode > 0){
+
+			
+
 			PlayerPrefs.SetInt("firstStart", 0);
 			waiter.SetActive(true);
 			Application.LoadLevel("Scene");
@@ -166,19 +172,11 @@ public class PanelsViewer : MonoBehaviour {
 
 		slideShow = !slideShow;
 
-		if (slideShow == true){
-			StartSlideShow();
+		if (slideShow == true && mode > -1){
+			SlideShowNext();
 		}else{
-			StopSlideShow();
+			CancelInvoke("SlideShowNext");
 		}
-	}
-
-	void StartSlideShow(){
-		InvokeRepeating("Next", 2f, 4f);
-	}
-
-	void StopSlideShow(){
-		CancelInvoke("Next");
 	}
 
 	public void SwitchARToMode(int fmode){
@@ -252,7 +250,7 @@ public class PanelsViewer : MonoBehaviour {
 		}
 		//SetLightToARCamera(onoff);
 	}
-
+	
 	void SaveMarkerOnAndroid(){
 		askPan.transform.GetChild(1).gameObject.SetActive(true);
 		string path = ParseAndroidPath();
@@ -264,7 +262,7 @@ public class PanelsViewer : MonoBehaviour {
 			askPan.transform.GetChild(1).gameObject.GetComponentInChildren<Text>().text = "Возникла ошибка при сохраении маркера!";
 		}
 	}
-
+	
 	string ParseAndroidPath(){
 
 		string startPath = Application.persistentDataPath;
@@ -286,7 +284,7 @@ public class PanelsViewer : MonoBehaviour {
 
 		return "";
 	}
-
+	
 	public void SaveMarker(){
 		#if UNITY_IOS
 			XCodeSaveMarker.SaveMarkerToAlbum();
@@ -297,7 +295,7 @@ public class PanelsViewer : MonoBehaviour {
 		askPan.transform.GetChild(0).gameObject.SetActive(false);
 		askPan.transform.GetChild(1).gameObject.SetActive(true);
 	}
-
+	
 	public void IHaveMArker(){
 		//askPan.SetActive(false);
 		PlayerPrefs.SetInt("firstStart", 0);
@@ -307,7 +305,7 @@ public class PanelsViewer : MonoBehaviour {
 		//askPan.transform.GetChild(0).gameObject.SetActive(true);
 		//askPan.transform.GetChild(1).gameObject.SetActive(false);
 	}
-
+	
 	public void AskUserForMarker(){
 		if (askPan != null){
 			askPan.SetActive(true);
@@ -315,7 +313,7 @@ public class PanelsViewer : MonoBehaviour {
 			askPan.transform.GetChild(1).gameObject.SetActive(false);
 		}
 	}
-
+	
 	public void AnalTest(){
 		Analytics.Transaction("12345abcde", 150.55m, "RUB", null, null);
 
@@ -682,6 +680,7 @@ public class PanelsViewer : MonoBehaviour {
 		}
 
 
+		man.gameObject.SetActive(true);
 
 		if (activePart != null){
 			activePart.SetActive(false);
@@ -737,6 +736,7 @@ public class PanelsViewer : MonoBehaviour {
 			animPhone.Play("idleDown");
 		}
 
+		man.gameObject.SetActive(true);
 
 		ShowScreen(-1);
 
@@ -762,6 +762,10 @@ public class PanelsViewer : MonoBehaviour {
 		if (mode == 0 || canClick == false) {return;}
 		//canClick = false;
 
+		if (slideShow == true){
+			CancelInvoke("SlideShowNext");
+			Invoke("SlideShowNext", 5f);
+		}
 
 		//ingPan.SetActive(false);
 		
@@ -788,6 +792,48 @@ public class PanelsViewer : MonoBehaviour {
 		
 		SetActivePoint();
 	}
+
+	void SlideShowNext(){
+		if (slideShow == true){
+			Invoke("SlideShowNext", 5f);
+		}else{
+			CancelInvoke();
+			return;
+		}
+
+		if (mode == 2){
+			
+			if (panNum + 1 < texts.Length){
+				panNum++;
+			}else{
+				panNum = 0;
+			}
+			
+			infoText.ShowText(texts[panNum]);
+			//Invoke("AcceptClic", 2f);
+		}else{
+			if (panNum + 1 < texts2.Length){
+				panNum++;
+			}else{
+				panNum = 0;
+			}
+			infoText.ShowText(texts2[panNum]);
+			//Invoke("AcceptClic", 1f);
+		}
+		
+		if (activePart != null){
+			if (activePart.GetComponent<Animator>() != null){
+				activePart.GetComponent<Animator>().Play("hide");
+				destPart = activePart;
+				StartCoroutine(WaitThenDoThings(activePart.GetComponent<Animator>().GetCurrentAnimatorClipInfo(0).Length, destPart));
+			}else{
+				destPart = activePart;
+				destPart.SetActive(false);
+			}
+		}
+		
+		SetActivePoint();
+	}
 	
 	public void Next()
 	{
@@ -795,7 +841,10 @@ public class PanelsViewer : MonoBehaviour {
 		//canClick = false;
 		//Invoke("AcceptClic", 2f);
 
-
+		if (slideShow == true){
+			CancelInvoke("SlideShowNext");
+			Invoke("SlideShowNext", 5f);
+		}
 
 		//ingPan.SetActive(false);
 

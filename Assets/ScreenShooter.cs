@@ -21,15 +21,7 @@ public class ScreenShooter : MonoBehaviour {
 	}
 
 	void Update () {
-		if (isScreenShotSave == true)
-		{
-			isScreenShotSave = false;
-			if (shot != null){
-				AudioSource.PlayClipAtPoint(shot, Vector3.zero);
-			}
 
-			button.SetActive(true);
-		}
 	}
 
 	void ScreenshotSaved()
@@ -46,18 +38,11 @@ public class ScreenShooter : MonoBehaviour {
 	
 	public void MakeScreenshot(){
 
-		StartCoroutine(ScreenshotManager.Save("MyScreenshot", "MyApp", true));
+		if (shot != null){
+			AudioSource.PlayClipAtPoint(shot, Vector3.zero);
+		}
+		StartCoroutine(ScreenshotManager.Save("SafePhone", "SafePhone", true));
 
-//		if (Application.platform == RuntimePlatform.Android){
-//			//StartCoroutine(ScreenShotBridge.SaveScreenShot(fileName,albumName,isScreenShotWithDateTime,ScreenShotStatus));
-//		}
-//
-//		if (Application.platform == RuntimePlatform.IPhonePlayer){
-//			//StartCoroutine(ScreenShotBridge.SaveScreenShot(fileName,albumName,isScreenShotWithDateTime,ScreenShotStatus));	
-//		}
-
-		//isScreenShotSave = false;
-		//button.SetActive(false);
 	}
 
 	void ScreenShotStatus(bool status)

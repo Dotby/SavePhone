@@ -106,20 +106,23 @@ public class UIControll : MonoBehaviour {
 
 	void LoadFirstScene(){
 
-
+		pviewer.canReturn = true;
 
 		Debug.Log("First = " + isFirstLoad);
 		if (isFirstLoad == true){
 			SetActiveScreen("WelcomeScreen");
+			SetOrientation ();
 		}
 		else{
 			SetActiveScreen("CamModeSelect");
+			SetOrientation ();
 		}
 
 		PlayerPrefs.SetInt("firstStart", 1);
 
 		if (Application.loadedLevelName == "SceneVR"){
 			SetActiveScreen("AboutScreen");
+			SetOrientation ();
 		}
 
 
@@ -147,6 +150,7 @@ public class UIControll : MonoBehaviour {
 		Debug.Log("pmode" + pviewer.ARmode);
 		if (Application.loadedLevelName == "SceneVR"){
 			pviewer.ARmode = 2;
+			pviewer.canReturn = true;
 		}
 		if (pviewer.ARmode < 2){
 			if (pviewer.visible == false){

@@ -39,6 +39,8 @@ public class Controller : MonoBehaviour {
 
 	public void SetModeTo(int _mode){
 
+		pviewer.canReturn = true;
+
 		if (_mode == -1){
 			Lost();
 		}
