@@ -65,6 +65,8 @@ public class PanelsViewer : MonoBehaviour {
 
 	public bool canReturn = false;
 
+	public GameObject WaiterCanvas;
+
 	string[] texts = new string[]{
 		"Обеспечивает коммуникации по каналам операторов мобильной связи.",
 		"Обеспечивает шифрованные мобильные переговоры.",
@@ -160,7 +162,7 @@ public class PanelsViewer : MonoBehaviour {
 		//Application.loadedLevelName == "Scene"
 	//	if (ARmode > 0){
 
-			
+			Instantiate(WaiterCanvas);
 
 			PlayerPrefs.SetInt("firstStart", 0);
 			waiter.SetActive(true);
