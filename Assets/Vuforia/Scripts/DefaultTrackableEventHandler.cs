@@ -70,6 +70,7 @@ namespace Vuforia
         {
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
+			Canvas[] canv = GetComponentsInChildren<Canvas>(true);
 
             // Enable rendering:
             foreach (Renderer component in rendererComponents)
@@ -83,6 +84,12 @@ namespace Vuforia
                 component.enabled = true;
             }
 
+			// Enable ui:
+			foreach (Canvas component in canv)
+			{
+				component.enabled = true;
+			}
+
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " found");
 			if (GameObject.Find("Manager") != null){
 				GameObject.Find("Manager").GetComponent<Controller>().Found();
@@ -95,6 +102,7 @@ namespace Vuforia
         {
             Renderer[] rendererComponents = GetComponentsInChildren<Renderer>(true);
             Collider[] colliderComponents = GetComponentsInChildren<Collider>(true);
+			Canvas[] canv = GetComponentsInChildren<Canvas>(true);
 
             // Disable rendering:
             foreach (Renderer component in rendererComponents)
@@ -107,6 +115,12 @@ namespace Vuforia
             {
                 component.enabled = false;
             }
+
+			// Disable ui:
+			foreach (Canvas component in canv)
+			{
+				component.enabled = false;
+			}
 
             Debug.Log("Trackable " + mTrackableBehaviour.TrackableName + " lost");
 			if (GameObject.Find("Manager") != null){
