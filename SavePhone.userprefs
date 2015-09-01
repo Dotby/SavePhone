@@ -1,20 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\WaiterControl.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\BoxAndPhone\EngineerControlAnim.cs">
     <Files>
-      <File FileName="Assets\BoxAndPhone\PanelsViewer.cs" Line="166" Column="27" />
-      <File FileName="Assets\BoxAndPhone\BoxUpControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\BoxAndPhone\MobileAnimControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\BoxAndPhone\EngineerControlAnim.cs" Line="1" Column="1" />
-      <File FileName="Assets\BoxAndPhone\Controller.cs" Line="1" Column="1" />
-      <File FileName="Assets\PhoneBeh.cs" Line="1" Column="1" />
-      <File FileName="Assets\ManAnimBeh.cs" Line="1" Column="1" />
-      <File FileName="Assets\Engineer\BodyControl.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GalleryScreenshotExample.cs" Line="1" Column="1" />
       <File FileName="Assets\ScreenShooter.cs" Line="1" Column="1" />
-      <File FileName="Assets\Plugins\ScreenshotManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\CanvasScreens\UIElement.cs" Line="1" Column="1" />
-      <File FileName="Assets\CanvasScreens\UIControll.cs" Line="1" Column="1" />
-      <File FileName="Assets\WaiterControl.cs" Line="8" Column="59" />
+      <File FileName="Assets\BoxAndPhone\EngineerControlAnim.cs" Line="30" Column="44" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
