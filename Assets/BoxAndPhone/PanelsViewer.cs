@@ -352,23 +352,23 @@ public class PanelsViewer : MonoBehaviour {
 	}
 	
 	public void AnalTest(){
-		Analytics.Transaction("12345abcde", 150.55m, "RUB", null, null);
-
-//		int totalPotions = 5;
-//		int totalCoins = 100;
-//		string weaponID = "Weapon_102";
-//		Analytics.CustomEvent("gameOver", new Dictionary<string, object>
-//		                      {
-//			{ "potions", totalPotions },
-//			{ "coins", totalCoins },
-//			{ "activeWeapon", weaponID }
-//		});
-
-		Gender gender = Gender.Female;
-		Analytics.SetUserGender(gender);
-		
-		int birthYear = 2014;
-		Analytics.SetUserBirthYear(birthYear);
+//		Analytics.Transaction("12345abcde", 150.55m, "RUB", null, null);
+//
+////		int totalPotions = 5;
+////		int totalCoins = 100;
+////		string weaponID = "Weapon_102";
+////		Analytics.CustomEvent("gameOver", new Dictionary<string, object>
+////		                      {
+////			{ "potions", totalPotions },
+////			{ "coins", totalCoins },
+////			{ "activeWeapon", weaponID }
+////		});
+//
+//		Gender gender = Gender.Female;
+//		Analytics.SetUserGender(gender);
+//		
+//		int birthYear = 2014;
+//		Analytics.SetUserBirthYear(birthYear);
 	}
 
 	public void VButton(int bt){

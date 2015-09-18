@@ -49,7 +49,7 @@ public class UIControll : MonoBehaviour {
 			}
 		}
 		else{
-			Debug.Log("NOT Founs fs");
+			Debug.Log("NOT Found fs");
 
 			isFirstLoad = true;
 		}
@@ -71,7 +71,13 @@ public class UIControll : MonoBehaviour {
 		if (Application.loadedLevelName == "SceneVR"){
 			LoadFirstScene();
 		}else{
-			Invoke("LoadFirstScene", 5.0f);
+			if (isFirstLoad == true)
+			{
+				Invoke("LoadFirstScene", 5.0f);
+			}
+			else{
+				LoadFirstScene();
+			}
 		}
 
 #endif
