@@ -38,7 +38,7 @@ public class PanelsViewer : MonoBehaviour {
 	public Color onColor;
 	Color offColor;
 
-	bool slideShow = false;
+	public bool slideShow = false;
 
 	public InfoTextPanel infoText;
 
@@ -66,6 +66,8 @@ public class PanelsViewer : MonoBehaviour {
 	public bool canReturn = false;
 
 	public GameObject WaiterCanvas;
+
+	public float slideShowTime = 0f;
 
 	string[] texts = new string[]{
 		"Обеспечивает коммуникации по каналам операторов мобильной связи.",
@@ -113,6 +115,10 @@ public class PanelsViewer : MonoBehaviour {
 	void Start () {
 	
 		bigIcons.SetActive(false);
+
+		if (GameObject.Find("slide1") != null){
+			GameObject.Find("slide1").GetComponent<Button>().interactable = true;
+		}
 
 		if (Application.loadedLevelName == "SceneVR"){
 			//_CONTROLLER._UI.SetActiveScreen("AboutScreen");
@@ -170,14 +176,34 @@ public class PanelsViewer : MonoBehaviour {
 		//}
 	}
 
-	public void SwitchAutoPlay(){
+	public void SwitchAutoPlay(float time){
 
-		slideShow = !slideShow;
+		GameObject.Find("slide1").GetComponent<Button>().interactable = true;
+		GameObject.Find("slide2").GetComponent<Button>().interactable = true;
+		GameObject.Find("slide3").GetComponent<Button>().interactable = true;
 
-		if (slideShow == true && mode > -1){
-			SlideShowNext();
+		switch((int)time){
+			case 0: GameObject.Find("slide1").GetComponent<Button>().interactable = false; break;
+			case 3: GameObject.Find("slide2").GetComponent<Button>().interactable = false; break;
+			case 5: GameObject.Find("slide3").GetComponent<Button>().interactable = false; break;
+			default: break;
+		}
+
+		if (time == 0){
+			slideShow = false;
 		}else{
-			CancelInvoke("SlideShowNext");
+			slideShow = true;
+		}
+
+		slideShowTime = time;
+
+		//slideShow = !slideShow;
+		if (mode > 0){
+			if (slideShow == true && mode > -1){
+				SlideShowNext();
+			}else{
+				CancelInvoke();
+			}
 		}
 	}
 
@@ -188,6 +214,10 @@ public class PanelsViewer : MonoBehaviour {
 		}
 
 		if (fmode == 1){
+
+			if (GameObject.Find("slide1") != null){
+				GameObject.Find("slide1").GetComponent<Button>().interactable = true;
+			}
 
 			_CONTROLLER.ARCam.enabled = true;
 			holeObj.SetActive(true);
@@ -202,6 +232,11 @@ public class PanelsViewer : MonoBehaviour {
 		}
 
 		if (fmode == 0){
+
+			if (GameObject.Find("slide1") != null){
+				GameObject.Find("slide1").GetComponent<Button>().interactable = true;
+			}
+
 			_CONTROLLER.ARCam.enabled = false;
 			_CONTROLLER.ARCam.gameObject.GetComponent<SmoothCamera>().enabled = false;
 			_CONTROLLER.ARCam.gameObject.transform.position = new Vector3(-15.9f, 47.5f, -53.4f);//-39.62f, 24.3f, -40.2f);
@@ -765,7 +800,7 @@ public class PanelsViewer : MonoBehaviour {
 		//canClick = false;
 
 		if (slideShow == true){
-			CancelInvoke("SlideShowNext");
+			CancelInvoke();
 			Invoke("SlideShowNext", 5f);
 		}
 
@@ -797,14 +832,14 @@ public class PanelsViewer : MonoBehaviour {
 
 	void SlideShowNext(){
 		if (slideShow == true){
-			Invoke("SlideShowNext", 5f);
+			Invoke("SlideShowNext", slideShowTime);
 		}else{
 			CancelInvoke();
 			return;
 		}
 
 		if (mode == 2){
-			
+			SetActivePoint();
 			if (panNum + 1 < texts.Length){
 				panNum++;
 			}else{
@@ -814,6 +849,7 @@ public class PanelsViewer : MonoBehaviour {
 			infoText.ShowText(texts[panNum]);
 			//Invoke("AcceptClic", 2f);
 		}else{
+			SetActivePoint();
 			if (panNum + 1 < texts2.Length){
 				panNum++;
 			}else{
@@ -834,7 +870,7 @@ public class PanelsViewer : MonoBehaviour {
 			}
 		}
 		
-		SetActivePoint();
+		//SetActivePoint();
 	}
 	
 	public void Next()
@@ -844,8 +880,8 @@ public class PanelsViewer : MonoBehaviour {
 		//Invoke("AcceptClic", 2f);
 
 		if (slideShow == true){
-			CancelInvoke("SlideShowNext");
-			Invoke("SlideShowNext", 5f);
+			CancelInvoke();
+			Invoke("SlideShowNext", slideShowTime);
 		}
 
 		//ingPan.SetActive(false);
